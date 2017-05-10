@@ -22,7 +22,7 @@ namespace indie
         NONE = -1,
 
         //! Loading (need to load sounds / sprites)
-	    LOADING,
+	LOADING,
 
         //! Splash screen
         SPLASH_SCREEN,
@@ -31,7 +31,7 @@ namespace indie
         INGAME,
 
         //! In menu
-        MENU,
+        GUI,
 
         //! Quitting
         QUIT,
