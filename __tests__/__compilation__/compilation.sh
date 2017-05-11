@@ -1,17 +1,16 @@
 #! /bin/sh
 
-# Run the project with G++ and no debug
-echo "\n\033[93m [Run G++ no debug] \033[0m\n"
-make re CXX=g++ DEBUG=no -s -C ./../../
+# Run the project with Clang++ and with debug mode
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
 
-# Run the project with Clang++ and no debug
-echo "\n\033[93m [Run Clang++ no debug] \033[0m\n"
-make re CXX=clang++ DEBUG=no -s -C ./../../
+echo "\n\033[93m [Run Clang++ with debug mode] \033[0m\n"
+
+cmake CMakeLists.txt && make && rm -rf CMakeFiles cmake_install.cmake CPackConfig.cmake CPackSourceConfig.cmake CMakeCache.txt Makefile bin
 
 # Run the project with G++ and with debug mode
 echo "\n\033[93m [Run G++ with debug mode] \033[0m\n"
-make re CXX=g++ DEBUG=yes -s -C ./../../
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++
 
-# Run the project with Clang++ and with debug mode
-echo "\n\033[93m [Run Clang++ with debug mode] \033[0m\n"
-make re CXX=clang++ DEBUG=yes -s -C ./../../
+cmake CMakeLists.txt && make && rm -rf CMakeFiles cmake_install.cmake CPackConfig.cmake CPackSourceConfig.cmake CMakeCache.txt Makefile bin

@@ -30,7 +30,7 @@ indie::Gfx::Gfx()
 }
 
 indie::Gfx::~Gfx() {
-    this->_device->drop();
+
 }
 
 void    indie::Gfx::display() {
