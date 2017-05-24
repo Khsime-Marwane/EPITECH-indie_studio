@@ -11,7 +11,7 @@
 
 #include <string>
 
-namespace arcade
+namespace indie
 {
 	///
 	/// \class IStat

@@ -24,6 +24,27 @@ FILE(
       ./${ROOT_DIR}/includes/*
 )
 
+if(WIN32)
+
+      ADD_EXECUTABLE(
+                  indie_studio
+
+                  ${source_files}
+
+                  ${data}
+      )
+
+      # link libraries with the project
+      TARGET_LINK_LIBRARIES(
+
+                  indie_studio
+                  
+                  ${PROJECT_SOURCE_DIR}/${ROOT_DIR}/lib/Win64-visualStudio/Irrlicht.lib
+
+      )
+
+endif()
+
 # If we are on Linux
 if(UNIX AND NOT APPLE)
 
@@ -32,7 +53,7 @@ if(UNIX AND NOT APPLE)
       ###############################################################################
 
       ### Compilation flags and links
-      SET(GCC_COVERAGE_COMPILE_FLAGS      "-std=c++11 -O2 -pedantic -W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor     \
+      SET(GCC_COVERAGE_COMPILE_FLAGS      "-std=c++14 -O2 -W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor               \
                                           -Wunreachable-code -Wundef -Wold-style-cast -Woverloaded-virtual -Wfloat-equal      \
                                           -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion               \
                                           -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default                   \
@@ -53,6 +74,8 @@ if(UNIX AND NOT APPLE)
                   indie_studio
 
                   ${source_files}
+
+                  ${data}
       )
 
       # link libraries with the project
@@ -78,6 +101,11 @@ if(UNIX AND NOT APPLE)
 
 
 endif()
+
+
+ADD_CUSTOM_COMMAND(TARGET indie_studio POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   ./${ROOT_DIR}/resources $<TARGET_FILE_DIR:indie_studio>)
 
 ###############################################################################
 ##   END    ###################################################################

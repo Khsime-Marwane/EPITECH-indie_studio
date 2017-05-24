@@ -35,7 +35,7 @@ DISPLAY_THREE	=	"[\033[92mOK\033[0m]  $<"
 #
 
 # Name of the projet
-NAME			=	indie
+NAME			=	indie_studio
 # OS Used
 OS_detected		=	$(shell uname -s)
 # Compiler
@@ -45,7 +45,7 @@ CXXFLAGS		=	-std=c++14
 # Performance
 CXXFLAGS		+=	-O2
 # Warnings
-CXXFLAGS		+=	-pedantic -W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor -Wunreachable-code		\
+CXXFLAGS		+=	-W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor -Wunreachable-code		\
 					-Wundef	-Wold-style-cast -Woverloaded-virtual -Wfloat-equal 							\
 					-Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion 					\
 					-Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default 						\
@@ -99,6 +99,7 @@ BINDIR   		= ./bin
 # SOURCES
 SOURCES			= 	$(wildcard $(SRCDIR)/*.cpp)
 SOURCES			+=	$(wildcard $(SRCDIR)/Graphical/*.cpp)
+SOURCES			+=	$(wildcard $(SRCDIR)/Graphical/Gfx/*.cpp)
 # OBJECTS
 OBJECTS			:= 	$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
@@ -108,7 +109,7 @@ OBJECTS			:= 	$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 ##
 #
 
-.PHONY: 	clean fclean re install compilation_tests
+.PHONY: 	clean fclean re install compilation_tests build
 
 $(BINDIR)/$(NAME):	$(OBJECTS)
 					@mkdir -p $(BINDIR)
@@ -121,6 +122,10 @@ $(OBJECTS):	$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 					@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
 					@echo $(COMPILATION_MSG)
 					@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
+
+# Build From CMAKE
+build:
+					cd build && ./Linux_build.sh && cd ../
 
 # Install dependencies
 install:
@@ -135,7 +140,7 @@ clean:
 					@echo "[\033[97mCleanup complete!\033[0m]"
 
 fclean: 			clean
-					@$(RM) $(BINDIR)/$(NAME)
+					@$(RM) $(BINDIR)
 					@echo "[\033[97mExecutable removed!\033[0m]"
 
 re:					fclean $(BINDIR)/$(NAME)

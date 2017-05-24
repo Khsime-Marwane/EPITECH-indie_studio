@@ -12,7 +12,6 @@
 #include <string>
 #include <exception>
 
-
 namespace indie
 {
     namespace exception

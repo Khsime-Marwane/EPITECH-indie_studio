@@ -13,5 +13,7 @@
 
 // Presence that the element is intentionally not used.
 #define _UNUSED __attribute__((unused))
+#define TRUE    true
+#define FALSE   false
 
 # endif // COMMON_HPP

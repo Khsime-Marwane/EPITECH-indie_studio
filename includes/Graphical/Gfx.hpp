@@ -14,25 +14,47 @@
 
 #include "Interfaces/IGfx.hpp"
 #include "Exception/exception.hpp"
+#include "Common/common.hpp"
 #include "irr/irrlicht.h"
 
 namespace indie
 {
 
+    #define SOUND_SUPPORTED TRUE
+
     class Gfx : public indie::IGfx {
 
         public:
+            //  Constructor / Destructor
             Gfx();
             virtual ~Gfx();
 
+            // Interfaces
+
+            //  Main
             virtual void    display();
             virtual void    clear();
-
-            void    operator=(const Gfx& gfx) = delete;
+            //  Events
+            virtual bool    pollEvents(Event &e);
+            //  Sound
+            virtual bool    doesSupportSound() const;
+            virtual void    loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
+            virtual void    soundControl(const Sound &sound);
+            // Sprites
+            virtual void    loadSprites(_UNUSED std::vector<std::unique_ptr<ISprite> > &&sprites);
+            //  Map
+            virtual void    updateMap(IMap const &map);
+            // IGUI
+            virtual void    updateGUI(IGUI &gui);
+            //  Forbidden
+            void            operator=(const Gfx& gfx) = delete;
             Gfx(const Gfx &gfx) = delete;
 
+            std::unique_ptr<irr::IrrlichtDevice>        _device;
+            std::unique_ptr<irr::video::IVideoDriver>   _driver;
+            std::unique_ptr<irr::scene::ISceneManager>  _smgr;
+            std::unique_ptr<irr::gui::IGUIEnvironment>  _guienv;
         private:
-            irr::IrrlichtDevice *_device;
 
     };
 
