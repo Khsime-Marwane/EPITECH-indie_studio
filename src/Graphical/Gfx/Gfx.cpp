@@ -55,13 +55,13 @@ indie::Gfx::Gfx()
         keyMap[1].Action = irr::EKA_MOVE_BACKWARD;
         keyMap[1].KeyCode = irr::KEY_KEY_S;
         keyMap[2].Action = irr::EKA_STRAFE_LEFT;
-        keyMap[2].KeyCode = irr::KEY_KEY_A;
+        keyMap[2].KeyCode = irr::KEY_KEY_Q;
         keyMap[3].Action = irr::EKA_STRAFE_RIGHT;
         keyMap[3].KeyCode = irr::KEY_KEY_D;
         keyMap[4].Action = irr::EKA_JUMP_UP;
         keyMap[4].KeyCode = irr::KEY_SPACE;
 
-        this->_smgr->addCameraSceneNodeFPS(0, 100.0f, 0.1f, -1, keyMap, 5);
+        this->_smgr->addCameraSceneNodeFPS(0, 100.0f, 0.025f, -1, keyMap, 5);
 
         // this->_smgr->addCameraSceneNode(0,
         //                                 irr::core::vector3df(4.0f, 4.0f, 4.0f),

@@ -8,6 +8,7 @@
 
 #include "Graphical/Gfx.hpp"
 
-void    indie::Gfx::updateGUI(_UNUSED IGUI &gui) {
+void    indie::Gfx::updateGUI(IGUI &gui) {
+    (void)gui;
     return ;
 }

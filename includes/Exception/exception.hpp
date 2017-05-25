@@ -36,11 +36,6 @@ namespace indie
                 ///
                 Error() noexcept : _message("") {};
                 ///
-                /// \fn virtual ~Error() noexcept
-                /// \brief Virtual destructor of the class.
-                ///
-                virtual ~Error() noexcept {};     
-                ///
                 /// \fn virtual const char *what() const noexcept
                 /// \brief  Return the value of the error message.
                 ///

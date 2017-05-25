@@ -8,6 +8,7 @@
 
 #include "Graphical/Gfx.hpp"
 
-bool    indie::Gfx::pollEvents(_UNUSED Event &e) {
+bool    indie::Gfx::pollEvents(Event &e) {
+    (void)e;
     return true;
 }

@@ -8,6 +8,7 @@
 
 #include "Graphical/Gfx.hpp"
 
-void    indie::Gfx::updateMap(_UNUSED IMap const &map) {
+void    indie::Gfx::updateMap(IMap const &map) {
+    (void)map;
     return ;
 }

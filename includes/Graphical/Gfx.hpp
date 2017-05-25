@@ -41,7 +41,7 @@ namespace indie
             virtual void    loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
             virtual void    soundControl(const Sound &sound);
             // Sprites
-            virtual void    loadSprites(_UNUSED std::vector<std::unique_ptr<ISprite> > &&sprites);
+            virtual void    loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites);
             //  Map
             virtual void    updateMap(IMap const &map);
             // IGUI
@@ -51,9 +51,10 @@ namespace indie
             Gfx(const Gfx &gfx) = delete;
 
             std::unique_ptr<irr::IrrlichtDevice>        _device;
-            std::unique_ptr<irr::video::IVideoDriver>   _driver;
-            std::unique_ptr<irr::scene::ISceneManager>  _smgr;
-            std::unique_ptr<irr::gui::IGUIEnvironment>  _guienv;
+            irr::video::IVideoDriver                    *_driver;
+            irr::scene::ISceneManager                   *_smgr;
+            irr::gui::IGUIEnvironment                   *_guienv;
+
         private:
 
     };

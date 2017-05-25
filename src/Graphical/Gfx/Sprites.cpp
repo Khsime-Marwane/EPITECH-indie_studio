@@ -8,6 +8,7 @@
 
 #include "Graphical/Gfx.hpp"
 
-void    indie::Gfx::loadSprites(_UNUSED std::vector<std::unique_ptr<ISprite> > &&sprites) {
+void    indie::Gfx::loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites) {
+    (void)sprites;
     return ;
 }

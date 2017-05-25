@@ -11,8 +11,11 @@
 
 #include "helper.hpp"
 
-// Presence that the element is intentionally not used.
-#define _UNUSED __attribute__((unused))
+# ifdef __linux__
+    // Specifies that the element is not used intentionally.
+    #define _UNUSED __attribute__((unused))
+# endif
+
 #define TRUE    true
 #define FALSE   false
 

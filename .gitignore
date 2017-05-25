@@ -6,3 +6,13 @@ indie
 lib
 Doc/Doc
 includes/Extern/irr
+build/CMakeFiles
+build/cmake_install.cmake
+build/CPackConfig.cmake
+build/CPackSourceConfig.cmake
+build/CMakeCache.txt
+build/Makefile
+bin
+cmake-build-debug
+.idea
+.vscode

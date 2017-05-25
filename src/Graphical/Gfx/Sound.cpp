@@ -12,10 +12,12 @@ bool    indie::Gfx::doesSupportSound() const {
     return SOUND_SUPPORTED;
 }
 
-void    indie::Gfx::loadSounds(_UNUSED std::vector<std::pair<std::string, SoundType > > const &sounds) {
+void    indie::Gfx::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds) {
+    (void)sounds;
     return ;
 }
 
-void    indie::Gfx::soundControl(_UNUSED const Sound &sound) {
+void    indie::Gfx::soundControl(const Sound &sound) {
+    (void)sound;
     return ;
 }

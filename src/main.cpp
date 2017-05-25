@@ -33,11 +33,5 @@ int main() {
     // Testing Gfx
     std::unique_ptr<indie::Gfx> gfx = std::make_unique<indie::Gfx>();
 
-    gfx->_device->setWindowCaption(L"BOMBTLET");
-    for (std::size_t i = 0; i < 2; ++i) {
-        gfx->display();
-        gfx->clear();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
     return EXIT_SUCCESS;
 }

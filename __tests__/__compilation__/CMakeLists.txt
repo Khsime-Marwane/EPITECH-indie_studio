@@ -23,9 +23,10 @@ INCLUDE_DIRECTORIES( SYSTEM ${ROOT_DIR}/includes/Extern )
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 # using Clang
 
-SET(GCC_COVERAGE_COMPILE_FLAGS      "-std=c++11 -O2 -Weverything                                                        \
-                                    -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-documentation -Wno-extra-semi     \
-                                    -Wno-weak-vtables -Qunused-arguments -Wno-reserved-id-macro" )
+SET(GCC_COVERAGE_COMPILE_FLAGS      "-std=c++14 -O2 -Weverything								\
+                                    -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-documentation -Wno-extra-semi		\
+                                    -Wno-weak-vtables -Qunused-arguments -Wno-reserved-id-macro -Wno-gnu-anonymous-struct	\
+				    -Wno-padded -Wno-newline-eof -Wno-global-constructors")
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 SET( GCC_COVERAGE_LINK_FLAGS  "-lpthread -L./../../lib/Linux -lIrrlicht -lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lpthread -lGL -lGLU" )
 SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}" )
@@ -34,11 +35,11 @@ SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 # using GCC
 
-SET(GCC_COVERAGE_COMPILE_FLAGS      "-std=c++11 -O2 -pedantic -W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor     \
+SET(GCC_COVERAGE_COMPILE_FLAGS      "-std=c++14 -O2 -W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor		\
                                     -Wunreachable-code -Wundef -Wold-style-cast -Woverloaded-virtual -Wfloat-equal      \
                                     -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion               \
                                     -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default                   \
-                                    -Wswitch-enum -Winline" )
+                                    -Wswitch-enum -Winline -W" )
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 SET( GCC_COVERAGE_LINK_FLAGS  "-lpthread -L./../../lib/Linux -lIrrlicht -lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lpthread -lGL -lGLU" )
 SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}" )

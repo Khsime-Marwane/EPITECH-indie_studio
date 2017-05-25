@@ -35,7 +35,7 @@ DISPLAY_THREE	=	"[\033[92mOK\033[0m]  $<"
 #
 
 # Name of the projet
-NAME			=	indie_studio
+NAME			=	indie
 # OS Used
 OS_detected		=	$(shell uname -s)
 # Compiler
