@@ -10,6 +10,7 @@
 # define HELPER_HPP
 
 #include <string>
+#include <cstring>
 #include <sstream>
 #include <vector>
 
@@ -54,9 +55,18 @@ namespace helper {
             /// \brief  Retrieves the value of an environment variable. If the variable does not exist, an empty string is returned.
             /// \param  The name of the variable to get.
             ///
-            std::string     getEnvVariable(const std::string &variable_name) noexcept {
+            std::string     getEnvVariable(const std::string &variable_name) const noexcept {
                 char * val = getenv( variable_name.c_str() );
                 return val == NULL ? std::string("") : std::string(val);
+            }
+
+            const wchar_t *getWC(const char *c) noexcept {
+
+                const size_t cSize = std::strlen(c)+1;
+                wchar_t* wc = new wchar_t[cSize];
+                mbstowcs (wc, c, cSize);
+
+                return wc;
             }
 
     };

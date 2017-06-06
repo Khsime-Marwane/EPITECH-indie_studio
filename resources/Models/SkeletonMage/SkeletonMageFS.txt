@@ -1,0 +1,7 @@
+Skeleton frame datas :
+
+Skeleton.cast  : 1 - 36
+Skeleton.die   : 38 - 68
+Skeleton.idle  : 70 - 150
+Skeleton.run   : 152 - 175
+Skeleton.Spawn : 177 - 252

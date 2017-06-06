@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-03 01:50:31 
+// Author: Marwane Khsime
+// Date: 2017-05-03 01:50:31
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-03 01:50:31
 //
 
@@ -10,7 +10,7 @@
 #include <chrono>
 #include <thread>
 
-#include "Graphical/Gfx.hpp"
+#include "Core/Core.hpp"
 
 #ifdef _MSC_VER
 
@@ -31,7 +31,15 @@ int main() {
     #endif
 
     // Testing Gfx
-    std::unique_ptr<indie::Gfx> gfx = std::make_unique<indie::Gfx>();
+    try {
+      std::unique_ptr<indie::Core> core = std::make_unique<indie::Core>();
+      core->display_loop();
+    }
+    catch (const std::exception &err) {
+        std::cerr << err.what() << std::endl;
+        std::cerr << _INDIE_LAUNCHING_FAILED << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

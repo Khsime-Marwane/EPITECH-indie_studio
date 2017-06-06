@@ -5,7 +5,7 @@
 ## Login   <marwane.khsime@epitech.eu>
 ## 
 ## Started on  Wed May  3 00:22:29 2017 marwane
-## Last update Wed May  3 00:24:51 2017 marwane
+## Last update Sun Jun  4 05:02:39 2017 marwane
 ##
 
 #
@@ -49,7 +49,7 @@ CXXFLAGS		+=	-W -Wall -Wextra -Weffc++ -Wshadow -Wnon-virtual-dtor -Wunreachable
 					-Wundef	-Wold-style-cast -Woverloaded-virtual -Wfloat-equal 							\
 					-Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion 					\
 					-Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default 						\
-					-Wswitch-enum -Winline																	\
+					-Wswitch-enum -Winline -Wno-narrowing										\
 
 # Include folders
 INCDIRS			:=	$(addprefix -I,$(shell find includes -type d -print))
@@ -58,7 +58,7 @@ CXXFLAGS		+=	$(INCDIRS)
 CXXFLAGS		+=	-isystem includes/Extern/
 # Libraries
 LDFLAGS			=	-lpthread -lGL -lGLU
-LDFLAGS			+=	-lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11
+LDFLAGS			+=	-lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lsndfile -lopenal
 
 # Add the library according to the OS
 ifeq ($(OS_detected), Linux)
@@ -98,8 +98,12 @@ BINDIR   		= ./bin
 
 # SOURCES
 SOURCES			= 	$(wildcard $(SRCDIR)/*.cpp)
+SOURCES			+=	$(wildcard $(SRCDIR)/Core/*.cpp)
 SOURCES			+=	$(wildcard $(SRCDIR)/Graphical/*.cpp)
 SOURCES			+=	$(wildcard $(SRCDIR)/Graphical/Gfx/*.cpp)
+SOURCES			+=	$(wildcard $(SRCDIR)/Graphical/Model/*.cpp)
+SOURCES			+=	$(wildcard $(SRCDIR)/Common/*.cpp)
+SOURCES			+=	$(wildcard $(SRCDIR)/Sound/*.cpp)
 # OBJECTS
 OBJECTS			:= 	$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 

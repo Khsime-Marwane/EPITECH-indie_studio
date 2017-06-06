@@ -9,15 +9,13 @@
 #include "Graphical/Gfx.hpp"
 
 bool    indie::Gfx::doesSupportSound() const {
-    return SOUND_SUPPORTED;
+    return this->_soundManager.doesSupportSound();
 }
 
 void    indie::Gfx::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds) {
-    (void)sounds;
-    return ;
+    this->_soundManager.loadSounds(sounds);
 }
 
 void    indie::Gfx::soundControl(const Sound &sound) {
-    (void)sound;
-    return ;
+    this->_soundManager.soundControl(sound);
 }

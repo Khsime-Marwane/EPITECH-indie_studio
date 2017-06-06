@@ -97,6 +97,8 @@ if(UNIX AND NOT APPLE)
                   -lpthread
                   -lGL
                   -lGLU
+                  -lopenal
+                  -lsndfile
       )
 
 

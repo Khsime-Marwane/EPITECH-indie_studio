@@ -1,0 +1,17 @@
+SquareExplosion Frame datas :
+
+1 - 66 : Infranchissable - non léthal
+67 - 82 : Infranchissable - léthal
+83 - 84 : Infranchissable - non léthal
+85 - 90 : Franchissable - non léthal
+
+hitbox : (traverse les murs)
+
+0 1 2 3 4 5 6 7
+1 . . . . . . .
+2 . . x x x . .
+3 . x x x x x .
+4 . x x X x x .
+5 . x x x x x .
+6 . . x x x . .
+7 . . . . . . .

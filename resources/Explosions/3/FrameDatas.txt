@@ -1,0 +1,19 @@
+"Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn" frame datas :
+
+1 - 51  : Infranchissable - non léthal
+52 - 68 : Infranchissable - léthal
+69 - 79 : Infranchissable - non léthal
+80 - 85 : Franchissable - non léthal
+
+hitbox : (ne traverse pas les murs - touche toutes les cases sur la ligne/colonne)
+
+0 1 2 3 4 5 6 7 8 9
+1 . . . . x . . . .
+2 . . . . x . . . .
+3 . . . . x . . . .
+4 . . . . x . . . .
+5 x x x x X x x x x
+6 . . . . x . . . .
+7 . . . . x . . . .
+8 . . . . x . . . .
+9 . . . . x . . . .

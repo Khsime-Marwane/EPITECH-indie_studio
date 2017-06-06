@@ -13,14 +13,14 @@
 #include <string>
 #include <memory>
 
-#include "GameState.hpp"
 #include "Event.hpp"
-#include "NetworkPacket.hpp"
+#include "GameState.hpp"
 #include "IStat.hpp"
 #include "IMap.hpp"
 #include "IGUI.hpp"
 #include "ISprite.hpp"
 #include "Sound.hpp"
+#include "IModel.hpp"
 
 namespace indie
 {
@@ -83,7 +83,6 @@ namespace indie
 
 */
 
-
         // Process
         ///
         /// \fn virtual void process() = 0
@@ -93,23 +92,37 @@ namespace indie
 
         // Sprites
         ///
-        /// \fn virtual std::vector<std::string> getSpritesToLoad() const = 0
-        /// \brief get the list of sprites to load.
+        /// \fn virtual std::vector<std::unique_ptr<ISprite> > getSpritesToLoad() const = 0
+        /// \brief get the list of Sprites to load.
         ///
-        virtual std::vector<std::unique_ptr<ISprite>> getSpritesToLoad() const = 0;
+        virtual std::vector<std::unique_ptr<ISprite> > getSpritesToLoad() const = 0;
+
+        // Models
+        ///
+        /// \fn virtual std::vector<std::unique_ptr<IModel> > getModelsToLoad() const = 0
+        /// \brief get the list of Models to load.
+        ///
+        virtual std::vector<std::unique_ptr<IModel> > getModelsToLoad() const = 0;
+        ///
+        /// \fn virtual std::vector<size_t> getObjectsId() const = 0
+        /// \brief get the list of objects currently in game.
+        /// This function is used to indicate to the GFX what objects are still in play
+        /// so that they do not have to recreate them.
+        ///
+        virtual std::vector<size_t> getObjectsId() const = 0;
 
         // Sound
         ///
         /// \fn virtual std::vector<std::string> getSoundsToLoad() const = 0
         /// \brief get the list of sound files to load.
         ///
-        virtual std::vector<std::pair<std::string, SoundType>> getSoundsToLoad() const = 0;
+        virtual std::vector<std::pair<std::string, SoundType> > getSoundsToLoad() const = 0;
 
         ///
         /// \fn     virtual std::vector<Sound> getSoundsToPlay() = 0
         /// \brief Get the sounds to play
         ///
-        virtual std::vector<Sound>			getSoundsToPlay() = 0;
+        virtual std::vector<Sound> getSoundsToPlay() = 0;
         /* You should return by std::move to not copy your vector and to clear it at the same time */
 
         // Map
@@ -125,6 +138,14 @@ namespace indie
         /// \brief Get the current version of the GUI to display
         ///
         virtual IGUI &getGUI() = 0;
+
+        // Level
+        ///
+        /// \fn virtual std::size_t getFlor() const = 0
+        /// \brief Get the current flor for the scene level
+        ///
+        virtual std::size_t getFlor() const = 0;
+
   };
 }
 

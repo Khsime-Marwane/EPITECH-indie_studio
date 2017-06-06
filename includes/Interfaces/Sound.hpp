@@ -75,7 +75,8 @@ namespace indie
         /// \param type Type of Sound
         /// \param volume Volume of Sound
         ///
-        Sound(unsigned int id_, SoundAction mode_ = UNIQUE, float volume_ = 50.0f) : id(id_), mode(mode_), volume(volume_) {}
+        Sound(unsigned int id_, SoundAction mode_ = UNIQUE, float volume_ = 50.0f)
+            :   id(id_), mode(mode_), volume(volume_) {}
 
     };
 

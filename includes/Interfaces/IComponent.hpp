@@ -49,14 +49,19 @@ namespace indie
       virtual double getHeight() const = 0;
       ///
       /// \fn virtual bool hasSprite() const = 0
-      /// \brief Return true if the component has a sprite
+      /// \brief Return true if the component has a Sprite
       ///
       virtual bool hasSprite() const = 0;
       ///
       /// \fn virtual size_t getBackgroundId() const = 0
-      /// \brief Get the id of the background sprite
+      /// \brief Get the id of the background Sprite
       ///
       virtual size_t getBackgroundId() const = 0;
+      ///
+      /// \fn virtual size_t getBackgroundPos() const = 0
+      /// \brief Get the pos of the background Sprite
+      ///
+      virtual size_t getBackgroundPos() const = 0;
       ///
       /// \fn virtual Color getBackgroundColor() const = 0
       /// \brief Get the color of the background
@@ -72,11 +77,10 @@ namespace indie
       /// \brief Get the text value
       ///
       virtual std::string const &getText() const = 0;
-      ///
-      /// \fn virtual void setClicked() = 0
-      /// \brief Way of the lib to tell a component it was clicked
-      ///
-      virtual void setClicked() = 0;
+
+        virtual void setPosState(size_t) = 0;
+
+        virtual size_t getPosState() const = 0;
     };
 }
 
