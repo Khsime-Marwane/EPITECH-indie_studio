@@ -11,7 +11,8 @@
 
 #include <iostream>
 #include <vector>
-#include <Interfaces/ISprite.hpp>
+#include <bits/unique_ptr.h>
+#include "Sprite.hpp"
 #include "Interfaces/IComponent.hpp"
 
 namespace indie
@@ -23,15 +24,15 @@ namespace indie
         double _width;
         double _height;
         size_t _backgroundId;
-        size_t _posState;
+        size_t _backgroundPos;
         Color  _backgroundColor;
         Color  _textColor;
         std::string _text;
-        std::vector<indie::ISprite*>  _sprites;
+        indie::Sprite*  _sprite;
 
     public:
 
-        Component(std::vector<indie::ISprite*>& sprites,
+        Component(indie::Sprite &sprite,
                   size_t backId,
                   double x,
                   double y,
@@ -40,11 +41,11 @@ namespace indie
                   indie::Color backColor,
                   indie::Color textColor,
                   std::string text = "");
-
-        virtual ~Component() {}
+        Component(const indie::Component &other);
+        virtual ~Component();
 
         ///Setters Methods
-        virtual void   setPosState(size_t);
+        virtual void setBackgroundPos(size_t newPos);
 
         ///Getters Methods
         virtual double              getX() const;
@@ -55,8 +56,13 @@ namespace indie
         virtual Color               getBackgroundColor() const;
         virtual Color               getTextColor() const;
         virtual std::string const & getText() const;
-        virtual size_t              getPosState() const;
+        virtual bool                hasSprite() const;
+        virtual size_t              getBackgroundPos() const;
+        indie::Component             &operator=(const indie::Component &other);
+
+        virtual indie::Sprite*      getSprite();
     };
 }
+
 
 #endif

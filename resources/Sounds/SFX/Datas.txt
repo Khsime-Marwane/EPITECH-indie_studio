@@ -1,0 +1,4 @@
+Explosion 1: frame 18
+Explosion 2: frame 41
+Explosion 3 : frame 1
+Spawn : frame 1

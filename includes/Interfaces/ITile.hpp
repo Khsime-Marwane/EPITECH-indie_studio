@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-22 17:50:23 
+// Author: Marwane Khsime
+// Date: 2017-05-22 17:50:23
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-22 17:50:23
 //
 
@@ -13,52 +13,18 @@
 #include <string>
 #include <utility>
 #include "Color.hpp"
+#include "Game/ModelsId.hpp"
 
 namespace indie
 {
 
-    ///
-    /// \enum TileTypeEvolution
-    /// \brief Type of map tile
-    ///
-    enum TileTypeEvolution
-    {
-        //! Empty tile
-        EMPTY = 0,
-        
-        //! Block tile
-        BLOCK,
-        
-        //! Obstacle tile
-        OBSTACLE,
-        
-        //! Enemy tile
-        ENEMY,
-        
-        //! Enemy shot tile
-        SHOT_ENEMY,
-        
-        //! Player shot tile
-        SHOT_PLAYER,
-        
-        //! Powerup tile
-        POWERUP,
-        
-        //! Player tile
-        PLAYER,
-        
-        //! Food tile
-        FOOD,
-    };
-
 	///
-	/// \enum ELookAT
+	/// \enum class ELookAT : int
 	///	\brief Indicate the direction where the model is looking at.
 	///
-	enum ELookAt
+	enum class ELookAt : int
 	{
-		UNKNOWN = 0,
-		NORTH,
+		NORTH = 0,
 		EAST,
 		SOUTH,
 		WEST
@@ -74,63 +40,69 @@ namespace indie
 	///
 	class ITile
 	{
-	public:
-		///
-		/// \fn virtual ~ITile()
-		/// \brief Virtual destructor of the interface
-		///
-		virtual ~ITile() {};
-
-		///
-		/// \fn virtual Color getColor() const = 0
-		/// \brief Get the color of the tile
-		///
-		virtual Color getColor() const = 0;
-		///
-		/// \fn virtual bool hasModel() const = 0
-		/// \brief Returns true if the Tile has a Model affected, if not, use getColor()
-		///
-		virtual bool hasModel() const = 0;
-		///
-		/// \fn virtual size_t getModelId() const = 0
-		/// \brief Get the Mesh ID linked with the model
-		///
-		virtual size_t getMeshId() const = 0;
-		///
-		/// \fn virtual size_t getModelId() const = 0
-		/// \brief Get the Model ID
-		///
-		virtual size_t getModelId() const = 0;
-		///
-		/// \fn virtual ELookAt getModelRotation() const = 0
-		/// \brief Get the direction towards which the character is directed
-		///
-		virtual ELookAt getModelRotation() const = 0;
-		///
-		/// \fn virtual std::string getModelTexture() const = 0
-		/// \brief Get the Model texture
-		///
-		virtual std::string getModelTexture() const = 0;
-		///
-		/// \fn virtual bool doesAnimationChanged() const = 0
-		/// \brief Returns true if the animation of the model has been changed
-		///
-		virtual bool doesAnimationChanged() const = 0;
-		///
-		/// \fn virtual std::pair<size_t, size_t> getModelFrameLoop() const = 0
-		/// \brief Get the new frame loop of the model.
-		///
-		virtual std::pair<size_t, size_t> getModelFrameLoop() const = 0;
-		///
-		/// \fn virtual double getShiftX() const = 0
-		/// \brief Get the tile position shift on x
-		///
-		virtual double getShiftX() const = 0;
+		public:
 			///
-		/// \fn virtual size_t getShiftY() const = 0
-		/// \brief Get the tile position shift on y
-		///
-		virtual double getShiftY() const = 0;
+			/// \fn virtual ~ITile()
+			/// \brief Virtual destructor of the interface
+			///
+			virtual ~ITile() {};
+
+			///
+			/// \fn virtual size_t getTileSize() const = 0
+			/// \brief Returns the size of the tile, in other words
+			///		   the number of elements in this tile.
+			///
+			virtual size_t	getTileSize() const = 0;
+			///
+			/// \fn virtual bool hasModel(size_t at) const = 0
+			/// \brief Returns true if the Tile has a Model affected
+			///
+			virtual bool hasModel(size_t at) const = 0;
+			///
+			/// \fn virtual size_t getModelId(size_t at) const = 0
+			/// \brief Get the Mesh ID linked with the model
+			///
+			virtual indie::MODELS_ID getModelId(size_t at) const = 0;
+			///
+			/// \fn virtual size_t getObjectId(size_t at) const = 0
+			/// \brief Get the Model ID
+			///
+			virtual size_t getObjectId(size_t at) const = 0;
+			///
+			/// \fn virtual ELookAt getObjectRotation(size_t at) const = 0
+			/// \brief Get the direction towards which the character is directed
+			///
+			virtual ELookAt getObjectRotation(size_t at) const = 0;
+			///
+			/// \fn virtual std::string getObjectTexture(size_t at) const = 0
+			/// \brief Get the Model texture
+			///
+			virtual std::string getObjectTexture(size_t at) const = 0;
+			///
+			/// \fn virtual bool doesAnimationChanged(size_t at) const = 0
+			/// \brief Returns true if the animation of the model has been changed
+			///
+			virtual bool doesAnimationChanged(size_t at) const = 0;
+			///
+			/// \fn virtual std::pair<size_t, size_t> getObjectFrameLoop(size_t at) const = 0
+			/// \brief Get the new frame loop of the model.
+			///
+			virtual std::pair<size_t, size_t> getObjectFrameLoop(size_t at) const = 0;
+			///
+			/// \fn virtual double getShiftX(size_t at) const = 0
+			/// \brief Get the tile position shift on x
+			///
+			virtual double getShiftX(size_t at) const = 0;
+				///
+			/// \fn virtual size_t getShiftY(size_t at) const = 0
+			/// \brief Get the tile position shift on y
+			///
+			virtual double getShiftY(size_t at) const = 0;
+			///
+			/// \fn virtual OBJECTS_ID getType(size_t at) const = 0
+			/// \brief Get the type of the object int the tile
+			///
+			virtual OBJECTS_ID getType(size_t at) const = 0;
 	};
 }
 

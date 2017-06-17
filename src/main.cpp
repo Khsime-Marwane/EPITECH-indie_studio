@@ -32,9 +32,16 @@ int main() {
 
     // Testing Gfx
     try {
+
       std::unique_ptr<indie::Core> core = std::make_unique<indie::Core>();
-      core->display_loop();
+
+      if (!core)
+        return std::cerr << _INDIE_LAUNCHING_FAILED << std::endl, EXIT_FAILURE;
+
+      core->runCoreLoop();
+
     }
+
     catch (const std::exception &err) {
         std::cerr << err.what() << std::endl;
         std::cerr << _INDIE_LAUNCHING_FAILED << std::endl;

@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-22 18:44:22 
+// Author: Marwane Khsime
+// Date: 2017-05-22 18:44:22
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-22 18:44:22
 //
 
@@ -12,8 +12,8 @@ bool    indie::Gfx::doesSupportSound() const {
     return this->_soundManager.doesSupportSound();
 }
 
-void    indie::Gfx::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds) {
-    this->_soundManager.loadSounds(sounds);
+void    indie::Gfx::loadSounds(std::unique_ptr<std::vector<std::pair<std::string, SoundType > > > sounds) {
+    this->_soundManager.loadSounds(*sounds);
 }
 
 void    indie::Gfx::soundControl(const Sound &sound) {

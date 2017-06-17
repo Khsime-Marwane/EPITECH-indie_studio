@@ -1,9 +1,17 @@
 SquareExplosion Frame datas :
 
+Centre:
+
 1 - 66 : Infranchissable - non léthal
 67 - 82 : Infranchissable - léthal
 83 - 84 : Infranchissable - non léthal
 85 - 90 : Franchissable - non léthal
+
+Zone d'effet:
+
+1 - 66 : Franchissable - non léthal
+67 - 82 : Infranchissable - léthal
+83 - 90 : Franchissable - léthal
 
 hitbox : (traverse les murs)
 

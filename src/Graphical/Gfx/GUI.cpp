@@ -66,22 +66,28 @@ void    indie::Gfx::draw_component_text(const IComponent &cmp) {
 
 void    indie::Gfx::draw_component_sprite(const IComponent &cmp) {
 
-    irr::core::position2d<irr::s32> position(this->get_real_posX(cmp.getX()),
-                                             this->get_real_posY(cmp.getY()));
-    irr::core::rect<irr::s32>   sprite_area(0,0,
-                                            this->get_real_posX(cmp.getWidth()),
-                                            this->get_real_posY(cmp.getHeight()));
+    irr::core::rect<irr::s32>   position(this->get_real_posX(cmp.getX()),
+                                             this->get_real_posY(cmp.getY()),
+                                             this->get_real_posX(cmp.getWidth()),
+                                             this->get_real_posY(cmp.getHeight())
+                                             );
+    irr::core::rect<irr::s32>   sprite_area(0,
+                                            0,
+                                            this->_sprites[cmp.getBackgroundId()][cmp.getBackgroundPos()]->getSize().Width,
+                                            this->_sprites[cmp.getBackgroundId()][cmp.getBackgroundPos()]->getSize().Height
+                                            );
+
     irr::video::SColor  color = this->getSColor(cmp.getBackgroundColor());
 
     this->_driver->draw2DImage(this->_sprites[cmp.getBackgroundId()][cmp.getBackgroundPos()],
                                position,
                                sprite_area,
                                0,
-                               color,
+                               &color,
                                true);
 }
 
-void    indie::Gfx::updateGUI(IGUI &gui) {
+void    indie::Gfx::updateGUI(const IGUI &gui) {
 
     for (std::size_t i = 0, count = gui.size(); i < count; ++i) {
 

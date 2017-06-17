@@ -13,115 +13,166 @@
 #include <utility>
 #include <vector>
 
+#include "Interfaces/IMap.hpp"
 #include "irr/irrlicht.h"
 
 namespace indie
 {
 
-    // Scene infos
-    struct SceneInfos {
-        irr::f32    startX;
-        irr::f32    startY;
-        irr::f32    width;
-        irr::f32    height;
-        irr::f32    depth;
-    };
-
+    // Gfx Infos
     struct GfxInfos {
-        SceneInfos  scene;
-        std::size_t flor;
+        GfxInfos(std::size_t current_scene)
+            : _current_scene(current_scene),
+              _scene_loaded_once(false),
+              _camera_view_point(ECAMERA_VIEW::UNDEFINED)
+        {
+        }
+        ~GfxInfos() {}
+
+        std::size_t  _current_scene;
+        bool         _scene_loaded_once;
+        ECAMERA_VIEW _camera_view_point;
     };
 
     // Container for Scenes
     struct SceneContainer
     {
         SceneContainer()
-                    : _scene() {
+                    : _scene(),
+                      _dome(""),
+                      _startX(0.0f),
+                      _startY(0.0f),
+                      _startZ(0.0f)
+        {
+
         }
-        SceneContainer(const std::vector<std::pair<irr::scene::IMesh *,
-                                                   irr::scene::IMeshSceneNode *> > &scene)
-                                                   : _scene(scene) {
-                                                    
+        SceneContainer(const std::vector<
+                                          std::pair<irr::scene::IMesh *, irr::scene::IMeshSceneNode *>
+                                        > &scene,
+                       const std::string &dome,
+                       float x,
+                       float y,
+                       float z)
+                    : _scene(scene),
+                      _dome(dome),
+                      _startX(x),
+                      _startY(y),
+                      _startZ(z)
+        {
+
         }
-        SceneContainer(SceneContainer &&scene)
-                    : _scene(scene._scene) {
-                    
+        SceneContainer(SceneContainer &&scene, const std::string &dome, float x, float y, float z)
+                    : _scene(scene._scene),
+                      _dome(dome),
+                      _startX(x),
+                      _startY(y),
+                      _startZ(z)
+        {
+
         }
-        SceneContainer(const SceneContainer &scene)
-                    : _scene(scene._scene) {
+        SceneContainer(const SceneContainer &scene, const std::string &dome, float x, float y, float z)
+                    : _scene(scene._scene),
+                      _dome(dome),
+                      _startX(x),
+                      _startY(y),
+                      _startZ(z)
+        {
 
         }
 
-        SceneContainer &operator=(SceneContainer &&) = default;
-        SceneContainer &operator=(const SceneContainer &) = default;
-        ~SceneContainer() {
+        ~SceneContainer()
+        {
 
         }
 
         std::vector<std::pair<irr::scene::IMesh *,
                               irr::scene::IMeshSceneNode *> >   _scene;
+        std::string                                             _dome;
+        float                                                   _startX;
+        float                                                   _startY;
+        float                                                   _startZ;
     };
 
     // Container For Models (meshes)
     struct  MeshContainer {
 
         MeshContainer()
-                    : mesh(NULL), frameSequences() {
+                    : mesh(NULL)
+        {
+
         }
 
-        MeshContainer(irr::scene::IAnimatedMesh *_mesh,
-                      std::vector<std::pair<size_t, size_t> > _frameSequences)
-                      : mesh(_mesh), frameSequences(_frameSequences) {
+        MeshContainer(irr::scene::IAnimatedMesh *_mesh)
+                      : mesh(_mesh)
+        {
+
         }
 
         MeshContainer(const MeshContainer &mc)
-            : mesh(mc.mesh), frameSequences(mc.frameSequences) {
+            : mesh(mc.mesh)
+        {
+
         }
 
         MeshContainer &operator=(const MeshContainer &mc) {
+
+            if (this == &mc)
+                return *this;
+
             this->mesh = mc.mesh;
-            this->frameSequences = mc.frameSequences;
             return *this;
+
         }
 
-        MeshContainer(MeshContainer &&) = default;
-        MeshContainer &operator=(MeshContainer &&) = default;
-        ~MeshContainer() {
+        ~MeshContainer()
+        {
 
         };
 
         irr::scene::IAnimatedMesh                 *mesh;
-        std::vector<std::pair<size_t, size_t> >   frameSequences;
     };
 
     // Container for nodes (objects)
     struct  NodeContainer {
 
         NodeContainer()
-            : id(0), node(NULL) {
+            : id(0), modelId(0), frameLoop( { 0, 0 } ), node(NULL)
+        {
+
         }
 
-        NodeContainer(size_t _id, irr::scene::IAnimatedMeshSceneNode *_node)
-            : id(_id), node(_node) {
+        NodeContainer(size_t _id, size_t _modelId, std::pair<size_t, size_t> _frameLoop, irr::scene::IAnimatedMeshSceneNode *_node)
+            : id(_id), modelId(_modelId), frameLoop(_frameLoop), node(_node)
+        {
+
         }
 
         NodeContainer(const NodeContainer &nc)
-            : id(nc.id), node(nc.node) {
+            : id(nc.id), modelId(nc.modelId), frameLoop(nc.frameLoop), node(nc.node)
+        {
+
         }
 
-        NodeContainer &operator=(const NodeContainer &nc) {
+        NodeContainer &operator=(const NodeContainer &nc)
+        {
+            if (this == &nc)
+                return *this;
+
             this->id = nc.id;
+            this->modelId = nc.modelId;
+            this->frameLoop = nc.frameLoop;
             this->node = nc.node;
             return *this;
         }
 
-        NodeContainer(NodeContainer &&) = default;
-        NodeContainer &operator=(NodeContainer &&) = default;
-        ~NodeContainer() {
+        ~NodeContainer()
+        {
 
         };
 
         size_t                                      id;
+        size_t                                      modelId;
+        std::pair< size_t, size_t >                 frameLoop;
         irr::scene::IAnimatedMeshSceneNode          *node;
 
     };

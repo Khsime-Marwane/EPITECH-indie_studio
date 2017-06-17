@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-05 05:14:34 
+// Author: Marwane Khsime
+// Date: 2017-05-05 05:14:34
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-05 05:14:34
 //
 
@@ -217,7 +217,7 @@ namespace indie
 	/// \brief Key used (Keyboard, Mouse or Controller)
 	///
     union {
-      KeyboardKey   kb_key; /// Keyboard key 
+      KeyboardKey   kb_key; /// Keyboard key
       MouseKey      m_key; /// Mouse key
       ControllerKey c_key; /// Controller key
     };

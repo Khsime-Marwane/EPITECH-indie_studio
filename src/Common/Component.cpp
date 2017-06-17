@@ -8,7 +8,7 @@
 
 #include "Common/Component.hpp"
 
-indie::Component::Component(std::vector<indie::ISprite*> &sprites,
+indie::Component::Component(indie::Sprite &sprite,
                             size_t backId,
                             double x,
                             double y,
@@ -23,12 +23,38 @@ indie::Component::Component(std::vector<indie::ISprite*> &sprites,
         _width(width),
         _height(height),
         _backgroundId(backId),
-        _posState(0),
+        _backgroundPos(0),
         _backgroundColor(backColor),
         _textColor(textColor),
         _text(text),
-        _sprites(sprites) {
+        _sprite(&sprite) {
+}
 
+indie::Component::Component(const indie::Component &other)
+        : _x(other._x),
+          _y(other._y),
+          _width(other._width),
+          _height(other._height),
+          _backgroundId(other._backgroundId),
+          _backgroundPos(other._backgroundPos),
+          _backgroundColor(other._backgroundColor),
+          _textColor(other._textColor),
+          _text(other._text),
+          _sprite(other._sprite) {
+}
+
+indie::Component &indie::Component::operator=(const indie::Component &other) {
+    _x = other._x;
+    _y = other._y;
+    _width = other._width;
+    _height = other._height;
+    _backgroundId = other._backgroundId;
+    _backgroundPos = other._backgroundPos;
+    _backgroundColor = other._backgroundColor;
+    _textColor = other._textColor;
+    _text = other._text;
+    _sprite = other._sprite;
+    return (*this);
 }
 
 double indie::Component::getX() const {
@@ -63,13 +89,24 @@ std::string const& indie::Component::getText() const {
     return (_text);
 }
 
-size_t indie::Component::getPosState() const {
-    return (_posState);
+bool indie::Component::hasSprite() const {
+    if (_sprite->SpritesCount() > 0)
+        return (true);
+    return (false);
 }
 
-void indie::Component::setPosState(size_t newPos) {
-    if (newPos <= _sprites.size())
-        _posState = newPos;
-    else
-        std::cerr << "posState > _sprites.size()" << std::endl;
+size_t indie::Component::getBackgroundPos() const {
+    return (_backgroundPos);
+}
+
+indie::Component::~Component() {
+    delete _sprite;
+}
+
+void indie::Component::setBackgroundPos(size_t newPos) {
+    _backgroundPos = newPos;
+}
+
+indie::Sprite* indie::Component::getSprite() {
+    return (_sprite);
 }

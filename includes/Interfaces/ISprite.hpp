@@ -38,11 +38,7 @@ namespace indie
     ///
     virtual std::string getGraphicPath(size_t pos) const = 0;
 
-    ///
-    /// \fn virtual std::string const& getAscii() const = 0
-    /// \brief returns the ascii character at position pos from the animation sequence
-    ///
-    /// virtual char getAscii(size_t pos) const = 0;
+    virtual  void addPath(std::string path) = 0;
   };
 
 }

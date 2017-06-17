@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-22 17:49:57 
+// Author: Marwane Khsime
+// Date: 2017-05-22 17:49:57
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-22 17:49:57
 //
 
@@ -13,6 +13,8 @@
 #include <memory>
 #include <vector>
 #include "IComponent.hpp"
+# include "Interfaces/Event.hpp"
+# include "Game/Settings.hpp"
 
 namespace indie
 {
@@ -39,7 +41,14 @@ namespace indie
     /// \fn virtual IComponent &at(std::size_t n) = 0
     /// \brief Access to the n element
     ///
-    virtual IComponent &at(std::size_t n) = 0;
+    virtual IComponent &at(std::size_t n) const = 0;
+
+    virtual void loadComponents(indie::GameState) = 0;
+
+    virtual std::vector<std::shared_ptr<indie::ISprite> > getSprites() = 0;
+
+    virtual void notifyEvent(const indie::Event &) = 0;
+
   };
 }
 

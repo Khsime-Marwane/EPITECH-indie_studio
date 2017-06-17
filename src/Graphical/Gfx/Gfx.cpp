@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-05 17:53:29 
+// Author: Marwane Khsime
+// Date: 2017-05-05 17:53:29
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-05 17:53:29
 //
 
@@ -11,7 +11,6 @@
 indie::Gfx::Gfx()
 
     // irr::createDevice (deviceType, windowSize, bits, fullscreen, stencilbuffer, vsync, receiver)
-
 
     try : _device(irr::createDevice (   irr::video::EDT_OPENGL,
                                         irr::core::dimension2d<irr::u32>(SCREEN_WIDTH, SCREEN_HEIGHT),
@@ -29,6 +28,7 @@ indie::Gfx::Gfx()
           _fonts(),
           // Scenes Management
           _scenesLoaded(),
+          _dome(),
           // Models Management
           _meshesLoaded(),
           _nodesLoaded(),
@@ -40,39 +40,16 @@ indie::Gfx::Gfx()
           // Sprites Management
           _sprites(),
           // Utils
-          // ------------  N      E       S      W
-          _orientation( { 0.0f, 270.0f, 180.f, 90.0f }),
-          _infos()
+          // ------------   N       E      S      W
+          _orientation( { 180.0f, 270.0f, 0.0f, 90.0f }),
+          _infos(0)
     {
 
         std::cout << "Launching Irrlicht GFX" << std::endl;
 
         this->_device->setWindowCaption(L"BAUNTLET");
 
-        // TESTING MESH ####################################
-
-        irr::scene::IAnimatedMesh   *mesh = this->_smgr->getMesh("Models/SkeletonMage/SkeletonMage.b3d");
-
-        if (!mesh) {
-            throw IndieError(_INDIE_GFX_MESH_FAILED);
-        }
-
-        irr::scene::IAnimatedMeshSceneNode *node =
-            this->_smgr->addAnimatedMeshSceneNode(mesh,
-                                                  NULL,
-                                                  1,
-                                                  irr::core::vector3df(-12.0f, 0.0f, 13.0f),
-                                                  irr::core::vector3df(0.0f, 0.0f, 0.0f));
-
-        if (node) {
-            node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-            node->setMD2Animation(irr::scene::EMAT_STAND);
-            node->setMaterialTexture(0, this->_driver->getTexture("Textures/SkeletonMage/Green.png"));
-        } else {
-            std::cerr << _INDIE_GFX_TEXTURE_FAILED << std::endl;
-        }
-
-        irr::SKeyMap keyMap[5];
+/*        irr::SKeyMap keyMap[5];
 
         keyMap[0].Action = irr::EKA_MOVE_FORWARD;
         keyMap[0].KeyCode = irr::KEY_KEY_Z;
@@ -85,25 +62,16 @@ indie::Gfx::Gfx()
         keyMap[4].Action = irr::EKA_JUMP_UP;
         keyMap[4].KeyCode = irr::KEY_SPACE;
 
-        // this->_camera = this->_smgr->addCameraSceneNode(NULL,
-        //                                                 //                    x     y     z
-        //                                                 irr::core::vector3df(-5.0f, 1.0f, 0.0f), // Position
-        //                                                 irr::core::vector3df(0.0f, 0.0f, 0.0f)  // Angle
-        //                                                 );
-
-        // Uncomment for use fps camera (can move, for debug)
         this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100.0f, 0.025f, -1, keyMap, 5);
+*/
+         this->_camera = this->_smgr->addCameraSceneNode(NULL,
+                                                                          //x     y     z
+                                                       irr::core::vector3df(0.0f, 0.0f, 0.0f), // Position
+                                                         irr::core::vector3df(0.0f, 0.0f, 0.0f)  // Angle
+                                                         );
 
         this->set_window_settings();
-
-        // This loop is just for testing
-        while (this->_device->run())
-        {
-            this->display();
-        }
-
-        //########################################## END TEST
-
+        std::cout << "fin gfx ctor\n";
     }
 
     catch (const std::exception &err) {
@@ -124,10 +92,6 @@ void    indie::Gfx::display() {
 
         #if DEBUG_MODE
             this->displayGraphicalInfos();
-
-            indie::Event    e;
-
-            this->pollEvents(e);
         #endif
 
         this->_guienv->drawAll();
@@ -154,27 +118,8 @@ void    indie::Gfx::set_window_settings() {
     // Load Default Font
     this->loadFonts();
 
-    std::vector<std::pair<std::string, std::string> > tmp = {
-                        std::make_pair("Map/bot_right.obj", "Map/bot_right.png"),
-                        std::make_pair("Map/bot_left.obj", "Map/bot_left.png"),
-                        std::make_pair("Map/top_left.obj", "Map/top_left.png"),
-                        std::make_pair("Map/top_right.obj", "Map/top_right.png"),
-                        std::make_pair("Map/pillars.obj", "Map/pillars.png"),
-                        std::make_pair("Map/ground.obj", "Map/ground.png")
-    };
-
-    std::unique_ptr<indie::IScene>  mys = std::make_unique<Scene>(tmp);
-    
-    std::vector<std::unique_ptr<indie::IScene> >    scenes;
-
-    scenes.push_back(std::move(mys));
-
-    this->loadScene(std::move(scenes));
-
-    this->updateFlor(0);
-
     // Set Event Receiver
-    // this->_device->setEventReceiver(&this->_eventsOverlay);
+    this->_device->setEventReceiver(&this->_eventsOverlay);
 
 }
 
@@ -199,8 +144,4 @@ void    indie::Gfx::displayGraphicalInfos() {
     //  FPS
     std::string fpsTxt("FPS : " + std::to_string(this->_driver->getFPS()));
     this->draw_text(fpsTxt, 0.0f, 0.050f, SCyan, SBlack);
-}
-
-void    indie::Gfx::display_mobs_all_map() {
-
 }

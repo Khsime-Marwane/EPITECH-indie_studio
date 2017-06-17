@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-05 17:41:58 
+// Author: Marwane Khsime
+// Date: 2017-05-05 17:41:58
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-05 17:41:58
 //
 
@@ -15,15 +15,19 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <cmath>
 
 #include "irr/irrlicht.h"
 #include "Interfaces/IGfx.hpp"
 #include "Common/common.hpp"
-#include "Common/Scene.hpp"
+#include "Graphical/Model.hpp"
+#include "Game/Scene.hpp"
+#include "Game/Map.hpp"
 #include "Graphical/irrEventsOverlay.hpp"
 #include "Sound/SoundManager.hpp"
 #include "Exception/exception.hpp"
 #include "GfxContainers.hpp"
+#include "Game/ModelsId.hpp"
 
 namespace indie
 {
@@ -46,6 +50,19 @@ namespace indie
 
     class Gfx : public indie::IGfx {
 
+        ///
+        /// \enum EDIRECTION
+        ///	\brief Indicate the direction where the model is looking at.
+        ///
+        enum EDIRECTION {
+
+            IRR_NORTH = 0,
+            IRR_EAST = 1,
+            IRR_SOUTH = 2,
+            IRR_WEST = 3
+
+        };
+
         //
         // Member Functions
         //
@@ -63,28 +80,30 @@ namespace indie
             virtual bool        pollEvents(Event &e);
             //  Sound
             virtual bool        doesSupportSound() const;
-            virtual void        loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
+            virtual void        loadSounds(std::unique_ptr<std::vector<std::pair<std::string, SoundType > > > sounds);
             virtual void        soundControl(const Sound &sound);
             //  Scene
-            virtual void        loadScene(std::vector<std::unique_ptr<IScene> > &&scene);
+            virtual void        loadScenes(std::unique_ptr<std::vector<std::unique_ptr<IScene> > > scene);
             //  Sprites
-            virtual void        loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites);
+            virtual void        loadSprites(std::unique_ptr<std::vector<std::unique_ptr<ISprite> > > sprites);
             //  Models
-            virtual void        loadModels(std::vector<std::unique_ptr<IModel> > &&models);
-            virtual void        loadObjectsId(const std::vector<std::size_t> &objects);
+            virtual void        loadModels(std::unique_ptr<std::vector<std::unique_ptr<IModel> > > models);
+            virtual std::vector<AnimationState>  getObjectsAnimationState() const;
             //  FONTS
             virtual void        loadFonts(const std::vector<std::string> &fonts_to_load = std::vector<std::string>());
             //  GUI
-            virtual void        updateGUI(IGUI &gui);
+            virtual void        updateGUI(const IGUI &gui);
             //  Map
-            virtual void        updateMap(IMap const &map);
-            // Scene appearance
-            virtual void        updateFlor(std::size_t);
+            virtual void        updateMap(const IMap &map);
             //  Not allowed
             Gfx &operator=(const Gfx& gfx) = delete;
             Gfx(const Gfx &gfx) = delete;
 
         private:
+
+            // Scene appearance
+            virtual void        update_scene(std::size_t);
+            virtual void        update_dome(const std::string &);
 
             // Window Settings
             void                set_window_settings();
@@ -92,9 +111,11 @@ namespace indie
             // Game Info
             void                displayGraphicalInfos();
 
-            // Update
-            void                draw_model(const ITile &tile, std::size_t x, std::size_t y);
-            void                draw_cube(const ITile &tile, std::size_t x, std::size_t y);
+            // Camera Management
+            void                set_camera_pov(const IMap &map);
+
+            // Update and Drawing
+            void                draw_model(const ITile &tile, std::size_t x, std::size_t z, std::size_t index);
             void                draw_component_sprite(const IComponent &cmp);
             void                draw_component_text(const IComponent &cmp);
             void                draw_text(const std::string &txt,
@@ -102,6 +123,7 @@ namespace indie
                                           const irr::video::SColor &txtColor = irr::video::SColor(255,0,0,0),
                                           const irr::video::SColor &bgColor = irr::video::SColor(255,255,255,255));
 
+            void                refresh_objects_id(const std::vector<std::size_t> &objects);
             void                delete_old_nodes();
 
             // Utils
@@ -109,26 +131,14 @@ namespace indie
             double              get_real_posX(double pos) const noexcept;
             double              get_real_posY(double pos) const noexcept;
 
-            void                    display_mobs_all_map();
-
             template < class T >
             irr::core::vector3df    get_mesh_size(T const *mesh) const {
-            
-                irr::core::vector3df      edges_length = mesh->getTransformedBoundingBox().getExtent(); 
-
-                std::cout << "height: " << edges_length.Y << std::endl;
-
-                std::cout << "width: " << edges_length.X << std::endl;
-
-                std::cout << "depth: " << edges_length.Z << std::endl;
-
-                return edges_length;
-
+                return mesh->getTransformedBoundingBox().getExtent();
             }
 
             template < class T >
             void    set_mesh_dimensions(T *mesh, const irr::core::vector3df &size) {
-            
+
                 irr::core::vector3df        edges_length = mesh->getTransformedBoundingBox().getExtent();
                 irr::core::vector3df        current_scale = mesh->getScale();
 
@@ -141,6 +151,9 @@ namespace indie
                 }));
 
             }
+
+            // TODO
+            void    test_drawing_map();
 
         //
         // Member Variables
@@ -158,6 +171,7 @@ namespace indie
 
             // Scene Management
             std::vector<SceneContainer>                         _scenesLoaded;
+            irr::scene::ISceneNode                              *_dome;
 
             // Models Management
             std::unordered_map<std::size_t, MeshContainer>      _meshesLoaded;

@@ -5,14 +5,18 @@
 // Login   <maud.marel@epitech.eu>
 //
 // Started on  Thu May  4 16:03:42 2017 maud.marel@epitech.eu
-// Last update Thu Jun  1 17:49:36 2017 maud.marel@epitech.eu
+// Last update Tue Jun  6 15:53:13 2017 maud.marel@epitech.eu
 //
 
 #ifndef CORE_HPP_
 # define CORE_HPP_
 
+#include <chrono>
+#include <thread>
+         
 #include "Interfaces/GameState.hpp"
 #include "Graphical/Gfx.hpp"
+#include "Game/Game.hpp"
 #include "Interfaces/IGame.hpp"
 #include "Interfaces/Sound.hpp"
 
@@ -21,28 +25,25 @@ namespace indie
 
   class	Core
   {
-    private:
-
-      indie::GameState          _gameState;
-      //indie::Gfx              _gfx;
-      indie::IGame              *_gameLoad;
-      std::vector<indie::Sound> _sounds;
-
     public:
       Core();
       ~Core();
 
-      Core(Core const &);
-      Core  &operator=(Core const &);
+      Core(Core const &) = delete;
+      Core  &operator=(Core const &) = delete;
 
-      indie::GameState  getGameState() const;
-      void              setGameState(const indie::GameState);
-      void              load_sound_lib();
-      void              display_game(indie::Gfx &);
-      void              display_menu(indie::Gfx &);
-      void              display_loop();
-      void              getEventGame(indie::Gfx &);
-      void              display();
+      void              runCoreLoop();
+
+    private:
+
+      void              loading();
+      void              process();
+      void              notifyGame() const;
+
+      std::unique_ptr<indie::IGfx>     _gfx;
+      std::unique_ptr<indie::IGame>   _game;
+      std::vector<indie::Sound>       _sounds;
+      GameState                       _gameState;
   };
 }
 

@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-05 05:01:47 
+// Author: Marwane Khsime
+// Date: 2017-05-05 05:01:47
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-05 05:01:47
 //
 
@@ -21,6 +21,8 @@
 #include "ISprite.hpp"
 #include "Sound.hpp"
 #include "IModel.hpp"
+#include "IScene.hpp"
+# include "Game/ModelsId.hpp"
 
 namespace indie
 {
@@ -57,8 +59,8 @@ namespace indie
         /// \brief Send events (keyboard, mouse, etc) to the game
         ///
         virtual void notifyEvent(std::vector<Event> &&events) = 0;
-
 /*
+
         NETWORK PART, working in progress about the architecture
 
         ///
@@ -90,39 +92,46 @@ namespace indie
         ///
         virtual void process() = 0;
 
+        // Scene
+        ///
+        /// \fn virtual std::vector<std::unique_ptr<ISprite> > getSpritesToLoad() const = 0
+        /// \brief get the list of Sprites to load.
+        ///
+        virtual std::unique_ptr<std::vector<std::unique_ptr<IScene> > > getScenesToLoad() const = 0;
+
         // Sprites
         ///
         /// \fn virtual std::vector<std::unique_ptr<ISprite> > getSpritesToLoad() const = 0
         /// \brief get the list of Sprites to load.
         ///
-        virtual std::vector<std::unique_ptr<ISprite> > getSpritesToLoad() const = 0;
+        virtual std::unique_ptr<std::vector<std::unique_ptr<indie::ISprite> > > getSpritesToLoad() const = 0;
 
         // Models
         ///
         /// \fn virtual std::vector<std::unique_ptr<IModel> > getModelsToLoad() const = 0
         /// \brief get the list of Models to load.
         ///
-        virtual std::vector<std::unique_ptr<IModel> > getModelsToLoad() const = 0;
+        virtual std::unique_ptr<std::vector<std::unique_ptr<IModel> > > getModelsToLoad() const = 0;
         ///
         /// \fn virtual std::vector<size_t> getObjectsId() const = 0
         /// \brief get the list of objects currently in game.
         /// This function is used to indicate to the GFX what objects are still in play
         /// so that they do not have to recreate them.
         ///
-        virtual std::vector<size_t> getObjectsId() const = 0;
+        virtual const std::vector<size_t> &getObjectsId() const = 0;
 
         // Sound
         ///
         /// \fn virtual std::vector<std::string> getSoundsToLoad() const = 0
         /// \brief get the list of sound files to load.
         ///
-        virtual std::vector<std::pair<std::string, SoundType> > getSoundsToLoad() const = 0;
+        virtual std::unique_ptr<std::vector<std::pair<std::string, SoundType> > > getSoundsToLoad() const = 0;
 
         ///
         /// \fn     virtual std::vector<Sound> getSoundsToPlay() = 0
         /// \brief Get the sounds to play
         ///
-        virtual std::vector<Sound> getSoundsToPlay() = 0;
+        virtual const std::vector<Sound> &getSoundsToPlay() const = 0;
         /* You should return by std::move to not copy your vector and to clear it at the same time */
 
         // Map
@@ -130,21 +139,16 @@ namespace indie
         /// \fn virtual IMap const &getCurrentMap() const = 0
         /// \brief Get the current version of the map
         ///
-        virtual IMap const &getCurrentMap() const = 0;
+        virtual const IMap &getCurrentMap() const = 0;
 
         // GUI
         ///
-        /// \fn virtual IGUI &getGUI() = 0
+        /// \fn virtual const IGUI &getGUI() = 0
         /// \brief Get the current version of the GUI to display
         ///
-        virtual IGUI &getGUI() = 0;
+        virtual const IGUI &getCurrentGUI() const = 0;
 
-        // Level
-        ///
-        /// \fn virtual std::size_t getFlor() const = 0
-        /// \brief Get the current flor for the scene level
-        ///
-        virtual std::size_t getFlor() const = 0;
+        virtual void setObjectsAnimationState(const std::vector<AnimationState> &) = 0;
 
   };
 }
