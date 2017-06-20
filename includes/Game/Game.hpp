@@ -3,6 +3,7 @@
 
 # include "Interfaces/Sound.hpp"
 # include "Graphical/Model.hpp"
+# include "Game/ResourceHandler.hpp"
 # include "Game/Load.hpp"
 # include "Game/Scene.hpp"
 # include "Game/Map.hpp"
@@ -10,10 +11,11 @@
 # include "Interfaces/IGame.hpp"
 # include "Common/GUI.hpp"
 # include <map>
+#include "Common/Timer.hpp"
 
 namespace indie {
 
-  # define PLAYER_SPEED 1.0
+  # define PLAYER_SPEED 0.1
 
   typedef std::function<void()>                                               TurnHandler;
   typedef std::function<void(const std::size_t &, const std::size_t &)>       TileHandler;
@@ -39,8 +41,12 @@ namespace indie {
       virtual void process();
 
     private:
+      void initSettings();
+
+    private:
       void  splashScreen();
       void  gameProcess();
+      void  menuProcess();
 
     private:
       std::vector<indie::Player>::const_iterator getPlayerSettings(size_t) const;
@@ -51,8 +57,10 @@ namespace indie {
       void updateAnimations();
       std::vector<indie::AnimationState>::const_iterator getAnimationStateIt(size_t) const;
       void updatePlayerAnimation(Tile &, size_t);
-      void updateBombAnimation(Tile &, size_t, OBJECTS_ID);
+      void updateBombAnimation(Tile &, size_t &, OBJECTS_ID, size_t x, size_t y);
       void removeObject(Tile &, size_t);
+      bool isEnded() const;
+      void reset();
 
     private:
       void  handleEvents();
@@ -62,29 +70,21 @@ namespace indie {
       Tile &move_up(indie::Tile &, size_t, size_t);
       void  move(size_t, indie::ELookAt);
       void  bomb(size_t);
+      void  SquareBomb(indie::Tile &);
+      void  PikesBomb(indie::Tile &, size_t, size_t);
+      void  TentacleBomb(indie::Tile &, size_t x, size_t y);
+
+    private:
+      void explode(indie::Tile &, size_t i, size_t x, size_t y);
+      void squareExplosion(size_t x, size_t y);
+      void tentacleExplosion(size_t x, size_t y, size_t size, size_t at);
+      void pikesTrap(size_t x, size_t y);
+      void kill(indie::Tile &);
+      void explodeBox(indie::Tile &);
 
     private:
       void AIhandler();
 
-    private:
-      // Tile Handlers
-      void  handleBomb(const std::size_t &,
-                        const std::size_t &);
-      void  handlePlayer(const std::size_t &,
-                          const std::size_t &,
-                          int);
-
-    private:
-      void spreadBombAnimation(const std::size_t &,
-                                const std::size_t &,
-                                const std::size_t &,
-                                const std::size_t &);
-      void spreadBombAnimationLine(const std::size_t &,
-                                    const std::size_t &,
-                                    const std::size_t &);
-      void spreadBombAnimationCol(const std::size_t &,
-                                  const std::size_t &,
-                                  const std::size_t &);
     public:
       virtual GameState                 getGameState() const;
       virtual const IMap                &getCurrentMap() const;
@@ -93,7 +93,9 @@ namespace indie {
       virtual const std::vector<Sound>  &getSoundsToPlay() const;
 
     private:
-      std::vector<indie::Sound>         _sounds;
+      indie::Timer                      _timer;
+      std::vector<indie::Sound>         _soundsToPlay;
+      indie::Sound                      _music;
       GameState                         _gameState;
       std::vector<Event>                _events;
       Map                               _map;

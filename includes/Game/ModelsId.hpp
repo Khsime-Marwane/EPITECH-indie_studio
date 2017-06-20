@@ -17,9 +17,19 @@ namespace indie
         UNKNOWN = -1,
         SKELETON_MODEL = 0,
         BOX_MODEL = 1,
-        EXPLOSION_MODEL = 2,
-        TRAP_MODEL = 3
-
+        SQUAREBOMB_MODEL = 2,
+        PIKES_MODEL_1 = 3,
+        PIKES_MODEL_2 = 4,
+        PIKES_MODEL_3 = 5,
+        PIKES_MODEL_4 = 6,
+        PIKES_MODEL_CENTER = 7,
+        TENTACLE_MODEL_1 = 8,
+        TENTACLE_MODEL_2 = 9,
+        TENTACLE_MODEL_3 = 10,
+        TENTACLE_MODEL_4 = 11,
+        TENTACLE_MODEL_5 = 12,
+        TENTACLE_MODEL_6 = 13,
+        TENTACLE_MODEL_PORTAL = 14
     };
 
     enum class OBJECTS_ID : int {
@@ -42,9 +52,6 @@ namespace indie
       bool over;
     }              AnimationState;
 
-  # define SQUAREBOMB_FRAMECD 5
-  # define PIKESBOMB_FRAMECD 5
-  # define TENTACLESBOMB_FRAMECD 5
 }
 
 #endif // MODELS_ID_HPP

@@ -8,7 +8,7 @@
 
 #include "Common/Component.hpp"
 
-indie::Component::Component(indie::Sprite &sprite,
+indie::Component::Component(bool hasSprite,
                             size_t backId,
                             double x,
                             double y,
@@ -27,7 +27,7 @@ indie::Component::Component(indie::Sprite &sprite,
         _backgroundColor(backColor),
         _textColor(textColor),
         _text(text),
-        _sprite(&sprite) {
+        _hasSprite(hasSprite) {
 }
 
 indie::Component::Component(const indie::Component &other)
@@ -40,7 +40,7 @@ indie::Component::Component(const indie::Component &other)
           _backgroundColor(other._backgroundColor),
           _textColor(other._textColor),
           _text(other._text),
-          _sprite(other._sprite) {
+          _hasSprite(other._hasSprite) {
 }
 
 indie::Component &indie::Component::operator=(const indie::Component &other) {
@@ -53,8 +53,17 @@ indie::Component &indie::Component::operator=(const indie::Component &other) {
     _backgroundColor = other._backgroundColor;
     _textColor = other._textColor;
     _text = other._text;
-    _sprite = other._sprite;
+    _hasSprite = other._hasSprite;
     return (*this);
+}
+
+void indie::Component::setBackgroundPos(size_t newPos) { _backgroundPos = newPos; }
+
+void indie::Component::setPos(double x, double y, double width, double height) {
+    _x = x;
+    _y = y;
+    _width = width;
+    _height = height;
 }
 
 double indie::Component::getX() const {
@@ -90,23 +99,9 @@ std::string const& indie::Component::getText() const {
 }
 
 bool indie::Component::hasSprite() const {
-    if (_sprite->SpritesCount() > 0)
-        return (true);
-    return (false);
+    return (_hasSprite);
 }
 
 size_t indie::Component::getBackgroundPos() const {
     return (_backgroundPos);
-}
-
-indie::Component::~Component() {
-    delete _sprite;
-}
-
-void indie::Component::setBackgroundPos(size_t newPos) {
-    _backgroundPos = newPos;
-}
-
-indie::Sprite* indie::Component::getSprite() {
-    return (_sprite);
 }

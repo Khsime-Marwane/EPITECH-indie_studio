@@ -79,9 +79,9 @@ namespace indie
       ///
       virtual std::string const &getText() const = 0;
 
-      virtual indie::Sprite* getSprite() = 0;
-
       virtual void  setBackgroundPos(size_t newPos) = 0;
+
+      virtual void   setPos(double x, double y, double width, double height) = 0;
 
       // TODO
       // virtual void setPosState(size_t) = 0;

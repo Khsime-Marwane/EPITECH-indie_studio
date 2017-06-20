@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-22 19:17:54 
+// Author: Marwane Khsime
+// Date: 2017-05-22 19:17:54
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-22 19:17:54
 //
 
@@ -21,23 +21,19 @@ void    indie::Gfx::draw_model(const ITile &tile, std::size_t x, std::size_t z, 
                                static_cast< irr::s32 >(tile.getObjectFrameLoop(index).second));
         }
 
-        if (tile.getModelId(index) == indie::MODELS_ID::SKELETON_MODEL) {
-            std::cout << "SHIFT X => " << tile.getShiftX(index) << std::endl;
-            std::cout << "SHIFT Z => " << tile.getShiftY(index) << std::endl;
-        }
-
-        node->setPosition(irr::core::vector3df(this->_scenesLoaded[this->_infos._current_scene]._startX + static_cast< float >(x),
+        node->setPosition(irr::core::vector3df(this->_scenesLoaded[this->_infos._current_scene]._startX + static_cast< float >(x) + static_cast< float >(tile.getShiftX(index)),
                                                this->_scenesLoaded[this->_infos._current_scene]._startY,
-                                               this->_scenesLoaded[this->_infos._current_scene]._startZ - static_cast< float >(z)));
+                                               this->_scenesLoaded[this->_infos._current_scene]._startZ - static_cast< float >(z) - static_cast< float >(tile.getShiftY(index))));
+
 
         node->setRotation(irr::core::vector3df(0.0f, this->_orientation[static_cast<std::size_t>(tile.getObjectRotation(index))], 0.0f));
 
     } else {
         // We create a new one
         NodeContainer           newModel;
-        irr::core::vector3df    position(this->_scenesLoaded[this->_infos._current_scene]._startX + static_cast< float >(x),
+        irr::core::vector3df    position(this->_scenesLoaded[this->_infos._current_scene]._startX + static_cast< float >(x) + static_cast< float >(tile.getShiftX(index)),
                                          this->_scenesLoaded[this->_infos._current_scene]._startY,
-                                         this->_scenesLoaded[this->_infos._current_scene]._startZ - static_cast< float >(z));
+                                         this->_scenesLoaded[this->_infos._current_scene]._startZ - static_cast< float >(z) - static_cast< float >(tile.getShiftY(index)));
         irr::core::vector3df    rotation(0.0f, this->_orientation[static_cast<std::size_t>(tile.getObjectRotation(index))], 0.0f);
 
         if ((newModel.node =
@@ -95,14 +91,13 @@ void    indie::Gfx::updateMap(const IMap &map) {
             // Note : we named the variable z because the x-axis of the map
             // corresponds to the z-axis on our 3d planes
             for (std::size_t z = 0; z < map_width; ++z) {
-                
+
                 // Here we loop on the tile to get all elements that are on it.
                 for (std::size_t index = 0, thickness = map.at(layer, z, y).getTileSize();
                      thickness > 0 && index < thickness;
                      ++index) {
 
                     if (map.at(layer, z, y).hasModel(index)) {
-                        std::cout << "model found at " << "[" << z << "][" << y << "]" << std::endl;
                         this->draw_model(map.at(layer, z, y), z, y, index);
                     }
 
@@ -113,6 +108,8 @@ void    indie::Gfx::updateMap(const IMap &map) {
         }
 
     }
+
+    this->_smgr->drawAll();
 
     return ;
 }

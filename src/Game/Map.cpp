@@ -17,7 +17,8 @@ indie::Map::Map(std::size_t which_map)
       _scenePov(ECAMERA_VIEW::DEFAULT),
       _objectsId(),
       _layers(),
-      _rawMap()
+      _rawMap(),
+      _id(0)
 {
 
     switch (static_cast< GAME_MAP >(which_map))
@@ -70,7 +71,7 @@ void                        indie::Map::addObjectById(std::size_t add) {
 
 void                        indie::Map::deleteObjectById(std::size_t del) {
 
-    if (std::find(this->_objectsId.begin(), this->_objectsId.end(), del) == this->_objectsId.end())
+    if (std::find(this->_objectsId.begin(), this->_objectsId.end(), del) != this->_objectsId.end())
         this->_objectsId.erase(std::remove(this->_objectsId.begin(), this->_objectsId.end(), del),
                                this->_objectsId.end());
     else
@@ -100,97 +101,70 @@ void         indie::Map::create_layer(std::size_t layer)
 
 }
 
+size_t indie::Map::newId() {
+  return ++_id;
+}
+
 void  indie::Map::initTiles() {
-  int nobjects = 0;
   int y = 0;
   int x;
-
   std::for_each(_layers[0].begin(), _layers[0].end(),
     [&](std::vector<std::unique_ptr<Tile> > &line) {
-      std::cout << "init tiles y " << y << std::endl;
       x = 0;
       std::for_each(line.begin(), line.end(),
       [&](std::unique_ptr<Tile> &tile) {
         indie::OBJECTS_ID type;
 
-          std::cout << "init tiles x " << x << std::endl;
         type = static_cast<indie::OBJECTS_ID>(_rawMap[y][x]);
         tile->setType(0, type);
         switch (type) {
-          case indie::OBJECTS_ID::EMPTY:
-            tile->setHasModel(0, false);
-            tile->setType(0, indie::OBJECTS_ID::EMPTY);
-            break;
-
-          case indie::OBJECTS_ID::WALL:
-            tile->setHasModel(0, false);
-            tile->setType(0, indie::OBJECTS_ID::WALL);
-            break;
 
           case indie::OBJECTS_ID::PLAYER_ONE:
-          std::cout << "player one\n";
             tile->setHasModel(0, true);
-            std::cout << "a\n";
-            tile->setType(0, indie::OBJECTS_ID::PLAYER_ONE);
-            std::cout << "b\n";
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            std::cout << "c\n";
-            _objectsId.push_back(++nobjects);
-            std::cout << "d\n";
-            tile->setObjectId(0, nobjects);
-            std::cout << "e\n";
+            _objectsId.push_back(++_id);
+            tile->setObjectId(0, _id);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Blue.png");
-            std::cout << "f\n";
-            tile->setDoesAnimationChanged(0, false);
-            std::cout << "g\n";
-            tile->setObjectFrameLoop(0, indie::Tile::getSkeletonFrame("SPAWN"));
-            std::cout << "player one setted\n";
+            tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
             break;
 
           case indie::OBJECTS_ID::PLAYER_TWO:
             tile->setHasModel(0, true);
-            tile->setType(0, indie::OBJECTS_ID::PLAYER_TWO);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++nobjects);
-            tile->setObjectId(0, nobjects);
+            _objectsId.push_back(++_id);
+            tile->setObjectId(0, _id);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Red.png");
-            tile->setDoesAnimationChanged(0, false);
-            tile->setObjectFrameLoop(0, indie::Tile::getSkeletonFrame("SPAWN"));
+            tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
             break;
 
           case indie::OBJECTS_ID::PLAYER_THREE:
             tile->setHasModel(0, true);
-            tile->setType(0, indie::OBJECTS_ID::PLAYER_THREE);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++nobjects);
-            tile->setObjectId(0, nobjects);
+            _objectsId.push_back(++_id);
+            tile->setObjectId(0, _id);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Yellow.png");
-            tile->setDoesAnimationChanged(0, false);
-            tile->setObjectFrameLoop(0, indie::Tile::getSkeletonFrame("SPAWN"));
+            tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
             break;
 
           case indie::OBJECTS_ID::PLAYER_FOURTH:
             tile->setHasModel(0, true);
-            tile->setType(0, indie::OBJECTS_ID::PLAYER_FOURTH);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++nobjects);
-            tile->setObjectId(0, nobjects);
+            _objectsId.push_back(++_id);
+            tile->setObjectId(0, _id);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Green.png");
-            tile->setDoesAnimationChanged(0, false);
-            tile->setObjectFrameLoop(0, indie::Tile::getSkeletonFrame("SPAWN"));
+            tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
             break;
 
           case indie::OBJECTS_ID::BOX:
             tile->setHasModel(0, true);
-            tile->setType(0, indie::OBJECTS_ID::BOX);
             tile->setModelId(0, indie::MODELS_ID::BOX_MODEL);
-            _objectsId.push_back(++nobjects);
-            tile->setObjectId(0, nobjects);
+            _objectsId.push_back(++_id);
+            tile->setObjectId(0, _id);
             tile->setObjectTexture(0, "Map/Box.png");
-            tile->setDoesAnimationChanged(0, true);
-            tile->setObjectFrameLoop(0, std::pair<std::size_t, std::size_t>(0, 0));
             break;
 
+          case indie::OBJECTS_ID::WALL:
+          case indie::OBJECTS_ID::EMPTY:
           case indie::OBJECTS_ID::SQUAREBOMB:
           case indie::OBJECTS_ID::PIKESBOMB:
           case indie::OBJECTS_ID::TENTACLEBOMB:

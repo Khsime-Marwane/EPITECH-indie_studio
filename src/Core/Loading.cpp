@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-06-12 20:34:32 
+// Author: Marwane Khsime
+// Date: 2017-06-12 20:34:32
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-06-12 20:34:32
 //
 
@@ -13,21 +13,22 @@ void    indie::Core::loading() {
     try {
 
     // Sounds
-    // this->_gfx->loadSounds(this->_game->getSoundsToLoad());
-    
+    this->_gfx->loadSounds(this->_game->getSoundsToLoad());
+
     // Scenes
     this->_gfx->loadScenes(this->_game->getScenesToLoad());
 
     // Models
     this->_gfx->loadModels(this->_game->getModelsToLoad());
 
-    std::cout << "loading ended" << std::endl;
-    
     // Sprites
-    // this->_gfx->loadSprites(this->_game->getSpritesToLoad());
-    
-    // Font 
+    this->_gfx->loadSprites(this->_game->getSpritesToLoad());
+
+    std::cout << "loading ended" << std::endl;
+
     // TODO
+    // Font
+    // this->_gfx->loadFonts(this->_game->getFont());
 
     } catch (const std::exception &err) {
 

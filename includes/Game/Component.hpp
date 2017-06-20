@@ -32,7 +32,7 @@ namespace indie
 
     public:
 
-        Component(indie::Sprite &sprite,
+        Component(indie::Sprite* sprite,
                   size_t backId,
                   double x,
                   double y,

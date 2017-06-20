@@ -23,7 +23,7 @@
 namespace indie
 {
 
-    const std::unordered_map<int, int>   _irrKeyboardKeys = {
+    const std::unordered_map<int, indie::KeyboardKey>   _irrKeyboardKeys = {
 
         { -1, indie::KB_NONE },
         { irr::EKEY_CODE::KEY_KEY_A, indie::KB_A },

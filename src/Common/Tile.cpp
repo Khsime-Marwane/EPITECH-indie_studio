@@ -18,8 +18,8 @@ indie::Tile::Tile()
       _objectTexture( { "" }),
       _doesAnimationChanged( { false }),
       _objectFrameLoop({ { 0, 0 } }),
-      _shiftX( { 0.5 } ),
-      _shiftY( { 0.5 }),
+      _shiftX( { 0.0 } ),
+      _shiftY( { 0.0 }),
       _type( { indie::OBJECTS_ID::EMPTY })
 {
 
@@ -94,4 +94,44 @@ void  indie::Tile::deleteElement(size_t i) {
   _shiftX.erase(_shiftX.begin() + i);
   _shiftY.erase(_shiftY.begin() + i);
   _type.erase(_type.begin() + i);
+}
+
+bool  indie::Tile::isTangible(size_t at) const {
+  return _type[at] != indie::OBJECTS_ID::EMPTY &&
+        _type[at] != indie::OBJECTS_ID::PIKESBOMB;
+}
+
+void  indie::Tile::newElem(size_t id) {
+  _hasModel.push_back(false);
+  _modelId.push_back(indie::MODELS_ID::UNKNOWN);
+  _objectId.push_back(id);
+  _objectRotation.push_back(indie::ELookAt::SOUTH);
+  _doesAnimationChanged.push_back(false);
+  _objectFrameLoop.push_back({0,0});
+  _shiftX.push_back(0.0);
+  _shiftY.push_back(0.0);
+  _type.push_back(indie::OBJECTS_ID::EMPTY);
+  _objectTexture.push_back("");
+}
+
+void indie::Tile::setElem(size_t at, size_t id, indie::OBJECTS_ID type,
+                          bool hasModel, indie::MODELS_ID modelId,
+                          bool doesAnimationChanged, std::pair<size_t, size_t> frames,
+                          std::string texture,
+                          indie::ELookAt rotation,
+                          double shiftX, double shiftY) {
+  if (at == _hasModel.size()) {
+    if (at == 1  && _type[0] == indie::OBJECTS_ID::EMPTY){ at = 0; }
+    else { newElem(id); }
+  }
+  _hasModel[at] = hasModel;
+  _modelId[at] = modelId;
+  _objectId[at] = id;
+  _objectRotation[at] = rotation;
+  _objectTexture[at] = texture;
+  _doesAnimationChanged[at] = doesAnimationChanged;
+  _objectFrameLoop[at] = frames;
+  _shiftX[at] = shiftX;
+  _shiftY[at] = shiftY;
+  _type[at] = type;
 }

@@ -21,23 +21,22 @@ namespace indie
     class irrEventOverlay : public irr::IEventReceiver
     {
         public:
-            irrEventOverlay() : _lastEvents() {};
+            irrEventOverlay() {
+                for (std::size_t i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
+                    this->KeysDown[i] = false;
+            };
             virtual ~irrEventOverlay() {};
 
             // Inherited from irrlicht
             virtual bool        OnEvent(const irr::SEvent& event);
-            bool                getLastEvent(Event &e);
+            bool                getLastEvent(std::vector<Event> &e);
 
             irrEventOverlay(const irrEventOverlay &) = delete;
             irrEventOverlay &operator=(const irrEventOverlay &) = delete;
 
         private:
 
-            bool                add_key_event(const irr::SEvent &event);
-            bool                add_mouse_event(const irr::SEvent &event);
-            bool                add_joystick_event(const irr::SEvent &event);
-
-            std::queue<Event>   _lastEvents;
+            bool                          KeysDown[irr::KEY_KEY_CODES_COUNT];
     };
 
 }

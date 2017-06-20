@@ -12,13 +12,15 @@ indie::Gfx::Gfx()
 
     // irr::createDevice (deviceType, windowSize, bits, fullscreen, stencilbuffer, vsync, receiver)
 
-    try : _device(irr::createDevice (   irr::video::EDT_OPENGL,
+    try : 
+          // Device
+          _device(irr::createDevice (   irr::video::EDT_OPENGL,
                                         irr::core::dimension2d<irr::u32>(SCREEN_WIDTH, SCREEN_HEIGHT),
                                         32,
                                         false,
                                         true,
                                         false,
-                                        0) ),
+                                        NULL) ),
           // Irrlicht Items
           _driver(this->_device->getVideoDriver()),
           _smgr(this->_device->getSceneManager()),
@@ -26,6 +28,8 @@ indie::Gfx::Gfx()
           _guienv(this->_device->getGUIEnvironment()),
           // Font
           _fonts(),
+          // Events Management
+          _eventsOverlay(),
           // Scenes Management
           _scenesLoaded(),
           _dome(),
@@ -33,8 +37,6 @@ indie::Gfx::Gfx()
           _meshesLoaded(),
           _nodesLoaded(),
           _objectsId(),
-          // Events Management
-          _eventsOverlay(),
           // Sound
           _soundManager(),
           // Sprites Management
@@ -42,7 +44,8 @@ indie::Gfx::Gfx()
           // Utils
           // ------------   N       E      S      W
           _orientation( { 180.0f, 270.0f, 0.0f, 90.0f }),
-          _infos(0)
+          _infos(0),
+          _introFinished(false)
     {
 
         std::cout << "Launching Irrlicht GFX" << std::endl;
@@ -65,13 +68,12 @@ indie::Gfx::Gfx()
         this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100.0f, 0.025f, -1, keyMap, 5);
 */
          this->_camera = this->_smgr->addCameraSceneNode(NULL,
-                                                                          //x     y     z
-                                                       irr::core::vector3df(0.0f, 0.0f, 0.0f), // Position
-                                                         irr::core::vector3df(0.0f, 0.0f, 0.0f)  // Angle
-                                                         );
+                                                        //                    x     y     z
+                                                        irr::core::vector3df(0.0f, 0.0f, 0.0f), // Position
+                                                        irr::core::vector3df(0.0f, 0.0f, 0.0f)  // Angle
+                                                        );
 
         this->set_window_settings();
-        std::cout << "fin gfx ctor\n";
     }
 
     catch (const std::exception &err) {
@@ -86,21 +88,17 @@ void    indie::Gfx::display() {
     if (this->_device->run())
     {
 
-        this->_driver->beginScene(true, true, SBlack);
-
-        this->_smgr->drawAll();
+        this->_guienv->drawAll();
 
         #if DEBUG_MODE
             this->displayGraphicalInfos();
         #endif
 
-        this->_guienv->drawAll();
-
         this->_driver->endScene();
 
     }   else {
 
-        std::cerr << _INDIE_GFX_DEVICE_IS_OFF << std::endl;
+        throw indie::IndieError(_INDIE_GFX_DEVICE_IS_OFF);
 
     }
 
@@ -121,6 +119,11 @@ void    indie::Gfx::set_window_settings() {
     // Set Event Receiver
     this->_device->setEventReceiver(&this->_eventsOverlay);
 
+    // Image Quality
+    this->_driver->setTextureCreationFlag (irr::video::ETCF_OPTIMIZED_FOR_QUALITY, true);
+
+    // Desable Log
+    this->_device->getLogger()->setLogLevel(irr::ELL_WARNING);
 }
 
 void    indie::Gfx::displayGraphicalInfos() {
@@ -128,9 +131,9 @@ void    indie::Gfx::displayGraphicalInfos() {
     //  Camera Position
     irr::core::vector3df posCam = this->_camera->getPosition();
     std::string camTxt = "CAMERA POS ( " +  std::to_string(posCam.X) + ", " +
-                                        std::to_string(posCam.Y) + ", " +
-                                        std::to_string(posCam.Z) + " )";
-    this->draw_text(camTxt, 0.0f, 0.0f, SCyan, SBlack);
+                                            std::to_string(posCam.Y) + ", " +
+                                            std::to_string(posCam.Z) + " )";
+    this->draw_text(camTxt, 0.0f, 0.0f, SGreen, SBlack);
 
     irr::core::vector3df pos = this->_camera->getAbsolutePosition();
     irr::core::vector3df target = this->_camera->getTarget();
@@ -139,9 +142,9 @@ void    indie::Gfx::displayGraphicalInfos() {
     std::string dirTxt = "CAMERA ANGLE ( " +  std::to_string(dir.X) + ", " +
                                               std::to_string(dir.Y) + ", " +
                                               std::to_string(dir.Z) + " )";
-    this->draw_text(dirTxt, 0.0f, 0.025f, SCyan, SBlack);
+    this->draw_text(dirTxt, 0.0f, 0.025f, SGreen, SBlack);
 
     //  FPS
     std::string fpsTxt("FPS : " + std::to_string(this->_driver->getFPS()));
-    this->draw_text(fpsTxt, 0.0f, 0.050f, SCyan, SBlack);
+    this->draw_text(fpsTxt, 0.0f, 0.050f, SGreen, SBlack);
 }

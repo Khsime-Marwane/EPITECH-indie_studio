@@ -14,9 +14,9 @@ irr::video::SColor  indie::Gfx::getSColor(const Color &color) const {
 }
 
 double                  indie::Gfx::get_real_posX(double pos) const noexcept {
-    return pos * SCREEN_WIDTH;
+    return pos * this->_driver->getScreenSize().Width;
 }
 
 double                  indie::Gfx::get_real_posY(double pos) const noexcept {
-    return pos * SCREEN_HEIGHT;
+    return pos * this->_driver->getScreenSize().Height;
 }

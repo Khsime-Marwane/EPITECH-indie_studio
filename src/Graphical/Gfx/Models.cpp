@@ -55,6 +55,12 @@ std::vector<indie::AnimationState>  indie::Gfx::getObjectsAnimationState() const
 
     for ( std::unordered_map<std::size_t, NodeContainer>::const_iterator it = this->_nodesLoaded.begin(); it != this->_nodesLoaded.end(); ++it) {
 
+        //  juste change l'id ici
+        // if (it->second.modelId == 2) {
+        //     std::cout << "bomb current frame : " << it->second.node->getFrameNr() << std::endl;
+        //     std::cout << "bomd end frame : " << it->second.frameLoop.second << std::endl;
+        // }
+
         // Checks whether the object has completed its animation or not
         if (it->second.node &&
             it->second.node->getFrameNr() ==

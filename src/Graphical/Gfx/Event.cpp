@@ -8,9 +8,9 @@
 
 #include "Graphical/Gfx.hpp"
 
-bool        indie::Gfx::pollEvents(Event &e) {
+bool        indie::Gfx::pollEvents(std::vector<Event> &events) {
 
-    if (this->_eventsOverlay.getLastEvent(e)) {
+    if (this->_eventsOverlay.getLastEvent(events)) {
         return true;
     }
     return false;

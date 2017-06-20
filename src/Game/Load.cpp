@@ -2,41 +2,43 @@
 
 
 std::unique_ptr<std::vector<std::unique_ptr<indie::ISprite> > > indie::Game::getSpritesToLoad() const {
-  std::unique_ptr<std::vector<std::unique_ptr<indie::ISprite> > >  spritesToLoad;
-
-    spritesToLoad = std::make_unique<std::vector<std::unique_ptr<indie::ISprite> > >();
-  /*spritesToLoad[indie::SpriteType::SPRT_BOMBTITLE] =
-    std::make_unique<indie::Sprite>(std::vector<std::string>({"Sprites/bombTitle.png"}));
-  spritesToLoad[indie::SpriteType::SPRT_EXITBUTTON] =
-    std::make_unique<indie::Sprite>(std::vector<std::string>({"Sprites/exitButton.png", "Sprites/exitButton2.png"}));
-  spritesToLoad[indie::SpriteType::SPRT_OPTBUTTON] =
-  std::make_unique<indie::Sprite>(std::vector<std::string>({"Sprites/optionButton.png", "Sprites/optionButton2.png"}));
-  spritesToLoad[indie::SpriteType::SPRT_PLAYBUTTON] =
-  std::make_unique<indie::Sprite>(std::vector<std::string>({"Sprites/playButton.png", "Sprites/playButton2.png"}));
-  spritesToLoad[indie::SpriteType::SPRT_SETTINGSBUTTON] =
-  std::make_unique<indie::Sprite>(std::vector<std::string>({"Sprites/settingsButton.png", "Sprites/settingsButton2.png"}));*/
-  return std::move(spritesToLoad);
+  return (std::move(_gui.getSprites()));
 }
 
 std::unique_ptr<std::vector<std::unique_ptr<indie::IModel> > > indie::Game::getModelsToLoad() const {
   std::unique_ptr<std::vector<std::unique_ptr<indie::IModel> > > modelsToLoad;
 
   modelsToLoad = std::make_unique<std::vector<std::unique_ptr<indie::IModel> > >();
-  (*modelsToLoad).push_back(std::make_unique<indie::Model>("Models/SkeletonMage/SkeletonMage.b3d",
-      std::vector<std::pair<size_t, size_t> >(
-        {{1, 36}, {38, 68}, {70, 150}, {152, 175}, {177, 252}})
-    ));
-
-  (*modelsToLoad).push_back(std::make_unique<indie::Model>("Map/Box.md3",
-      std::vector<std::pair<size_t, size_t> >(
-        {{0, 0}, {1, 25}})
-    ));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Models/SkeletonMage/SkeletonMage.b3d", std::vector<std::pair<size_t, size_t> >({{1, 36}, {38, 68}, {70, 150}, {152, 175}, {177, 252}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Map/Box.md3", std::vector<std::pair<size_t, size_t> >({{0, 0}, {1, 25}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/1/Square_Explosion.md3", std::vector<std::pair<size_t, size_t> >({{1, 66}, {67, 82}, {83, 84}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/2/Pikes_1.md3", std::vector<std::pair<size_t, size_t> >({{1, 48}, {49, 64}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/2/Pikes_2.md3", std::vector<std::pair<size_t, size_t> >({{1, 48}, {49, 64}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/2/Pikes_3.md3", std::vector<std::pair<size_t, size_t> >({{1, 48}, {49, 64}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/2/Pikes_4.md3", std::vector<std::pair<size_t, size_t> >({{1, 48}, {49, 64}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/2/Pikes_Center.md3", std::vector<std::pair<size_t, size_t> >({{1, 48}, {49, 64}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_1.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_2.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_3.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_4.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_5.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_6.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Portal.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 79}, {80, 85}})));
   return std::move(modelsToLoad);
 }
 
 std::unique_ptr<std::vector<std::pair<std::string, indie::SoundType> > > indie::Game::getSoundsToLoad() const {
   std::unique_ptr<std::vector<std::pair<std::string, indie::SoundType> > > soundsToLoad;
 
+  soundsToLoad = std::make_unique<std::vector<std::pair<std::string, indie::SoundType> > >();
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Drowning_-_Menu.wav", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Fault_Lines_-_Game.wav", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Innocence_Mangled_-_Game.wav", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Tandava_-_Game.wav", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_1.ogg", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_2.ogg", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_3.ogg", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Skeleton_Spawn.ogg", indie::SoundType::SOUND));
   return std::move(soundsToLoad);
 }
 
@@ -44,7 +46,7 @@ std::unique_ptr<std::vector<std::unique_ptr<indie::IScene> > > indie::Game::getS
   std::unique_ptr<std::vector<std::unique_ptr<indie::IScene> > > scenesToLoad;
 
   scenesToLoad = std::make_unique<std::vector<std::unique_ptr<indie::IScene> > >();
-  (*scenesToLoad).push_back(std::make_unique<indie::Scene>(
+  scenesToLoad->push_back(std::make_unique<indie::Scene>(
     std::vector<std::pair<std::string, std::string > > ({ std::make_pair("Map/bot_right.obj", "Map/bot_right.png"),
                                                           std::make_pair("Map/bot_left.obj", "Map/bot_left.png"),
                                                           std::make_pair("Map/top_left.obj", "Map/top_left.png"),

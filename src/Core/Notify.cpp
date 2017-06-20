@@ -10,13 +10,10 @@
 
 void    indie::Core::notifyGame() const {
 
-    Event               event;
     std::vector<Event>  events_recorded;
 
-    while (this->_gfx->pollEvents(event)) {
-        events_recorded.push_back(event);
+    if (this->_gfx->pollEvents(events_recorded)) {
+        this->_game->notifyEvent(std::move(events_recorded));
     }
-
-    this->_game->notifyEvent(std::move(events_recorded));
 
 }

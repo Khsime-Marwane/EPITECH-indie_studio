@@ -7,8 +7,8 @@ namespace indie {
 
     typedef enum          e_BonusType {
       BONUS_UNKNOWN = -1,
-      BONUS_SQUAREBOMB = 7,
-      BONUS_TENTACLEBOMB = 9
+      BONUS_SQUAREBOMB = 0,
+      BONUS_TENTACLEBOMB = 1
     }                     BonusType;
 
     typedef struct  s_Bonus {
@@ -35,7 +35,6 @@ namespace indie {
 
     typedef enum          e_IA_LEVEL {
       IA_UNKNOWN = -1,
-      IA_EASY,
       IA_MEDIUM,
       IA_HARD
     }                     IA_LEVEL;

@@ -52,7 +52,7 @@ namespace indie
         /// If there is an event to poll, it is filled and true is returned.
         /// If not, false is returned.
         ///
-        virtual bool pollEvents(Event &e) = 0;
+        virtual bool pollEvents(std::vector<Event> &e) = 0;
 
         // Sound
         ///
@@ -123,6 +123,12 @@ namespace indie
         /// \brief Updates the GUI (no direct display changes are made here)
         ///
         virtual void updateGUI(const IGUI &gui) = 0;
+
+        // SplashScreen
+        ///
+        /// \fn virtual void launchIntro() = 0;
+        /// \brief Run the SplashScreen from the Gfx
+        virtual void launchIntro() = 0;
 
         // Display
         ///

@@ -15,6 +15,7 @@
 #include "Interfaces/IMap.hpp"
 #include "Game/Tile.hpp"
 #include "Game/ModelsId.hpp"
+#include "Game/ResourceHandler.hpp"
 #include "Exception/exception.hpp"
 
 namespace indie
@@ -54,6 +55,7 @@ namespace indie
             void addObjectById(std::size_t add);
             void deleteObjectById(std::size_t del);
             void setObectsId(const std::vector<std::size_t> &ids);
+            size_t newId();
 
         private:
 
@@ -80,6 +82,7 @@ namespace indie
             std::vector<std::size_t>    _objectsId;
             std::vector<std::vector<std::vector< std::unique_ptr< Tile > > > > _layers;
             std::vector<std::vector< int > >   _rawMap;
+            size_t                             _id;
     };
 
 }

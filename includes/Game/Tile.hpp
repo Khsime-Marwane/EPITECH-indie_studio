@@ -18,7 +18,6 @@
 
 namespace indie
 {
-    typedef std::function<std::pair<size_t, size_t>()> FrameSeeker;
 
     class Tile : public indie::ITile {
 
@@ -54,19 +53,17 @@ namespace indie
             Tile        &operator=(const Tile &);
             void        reset();
             void        deleteElement(size_t);
+            bool        isTangible(size_t) const;
+            void        newElem(size_t);
+            void        setElem(size_t at, size_t id,
+                                indie::OBJECTS_ID type = indie::OBJECTS_ID::EMPTY,
+                                bool hasModel = false, indie::MODELS_ID modelId = indie::MODELS_ID::UNKNOWN,
+                                bool doesAnimationChanged = false,
+                                std::pair<size_t, size_t> frames = {0, 0},
+                                std::string texture = "",
+                                indie::ELookAt rotation = indie::ELookAt::SOUTH,
+                                double shitX = 0.0, double shiftY = 0.0);
 
-        public:
-          static std::pair<size_t, size_t> getSkeletonFrame(std::string);
-          static std::pair<size_t, size_t> getLethalFrame(OBJECTS_ID);
-          static bool                      isFrameLethal(OBJECTS_ID,
-                                                          std::pair<size_t, size_t>);
-          static std::pair<size_t, size_t> getNextFrameSquareBomb(std::pair<size_t, size_t>);
-          static std::pair<size_t, size_t> getNextFramePikesBomb(std::pair<size_t, size_t>);
-          static std::pair<size_t, size_t> getNextFrameTentacleBomb(std::pair<size_t, size_t>);
-          static std::pair<size_t, size_t> getNextFrame(OBJECTS_ID,
-                                                        std::pair<size_t, size_t>);
-          static bool                      isDeathFrame(MODELS_ID,
-                                                        std::pair<size_t, size_t>);
         private:
 
             std::vector<bool>                                     _hasModel;

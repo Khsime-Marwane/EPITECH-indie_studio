@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-05 04:36:43 
+// Author: Marwane Khsime
+// Date: 2017-05-05 04:36:43
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-05 04:36:43
 //
 
@@ -12,6 +12,17 @@
 namespace indie
 {
 
+    enum SoundId {
+      SOUND_NONE = -1,
+      SOUND_MENU,
+      SOUND_GAME_FAULT_LINES,
+      SOUND_GAME_INNONCENCE_MANGLED,
+      SOUND_GAME_TANDAVA,
+      SOUND_EXPLOSION_1,
+      SOUND_EXPLOSION_2,
+      SOUND_EXPLOSION_3,
+      SOUND_SKELELETON_SPAWN
+    };
     ///
     /// \enum SoundMode
     /// \brief Used to control the way sound is played
@@ -63,7 +74,7 @@ namespace indie
     struct Sound
     {
 
-        unsigned int    id;     //< Id of the sound
+        SoundId    id;     //< Id of the sound
         SoundAction     mode;   //< Mode of the sound (control)
         float           volume; //< Volume
 
@@ -75,8 +86,8 @@ namespace indie
         /// \param type Type of Sound
         /// \param volume Volume of Sound
         ///
-        Sound(unsigned int id_, SoundAction mode_ = UNIQUE, float volume_ = 50.0f)
-            :   id(id_), mode(mode_), volume(volume_) {}
+        Sound(SoundId id_, SoundAction mode_ = UNIQUE, float volume_ = 50.0f)
+            : id(id_), mode(mode_), volume(volume_) {}
 
     };
 

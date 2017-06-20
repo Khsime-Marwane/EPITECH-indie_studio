@@ -1,8 +1,8 @@
-#include "Game/Tile.hpp"
+#include "Game/ResourceHandler.hpp"
 
-std::pair<size_t, size_t>   indie::Tile::getNextFrameSquareBomb(std::pair<size_t, size_t> current_frame) {
+std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrameSquareBomb(std::pair<size_t, size_t> current_frame) {
   static std::vector<std::pair<size_t, size_t > > frames = {
-    {0, 0}, {1, 66}, {67, 82}, {83, 84}, {85, 90}
+    {0, 0}, {1, 66}, {67, 82}, {83, 84}
   };
   size_t frameID = 0;
 
@@ -15,9 +15,9 @@ std::pair<size_t, size_t>   indie::Tile::getNextFrameSquareBomb(std::pair<size_t
   return frames[frameID];
 }
 
-std::pair<size_t, size_t>   indie::Tile::getNextFramePikesBomb(std::pair<size_t, size_t> current_frame) {
+std::pair<size_t, size_t>   indie::ResourceHandler::getNextFramePikesBomb(std::pair<size_t, size_t> current_frame) {
   static std::vector<std::pair<size_t, size_t > > frames = {
-    {0, 0}, {1, 48}, {49, 65}
+    {0, 0}, {1, 48}, {49, 64}
   };
   size_t frameID = 0;
 
@@ -30,9 +30,9 @@ std::pair<size_t, size_t>   indie::Tile::getNextFramePikesBomb(std::pair<size_t,
   return frames[frameID];
 }
 
-std::pair<size_t, size_t>   indie::Tile::getNextFrameTentacleBomb(std::pair<size_t, size_t> current_frame) {
+std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrameTentacleBomb(std::pair<size_t, size_t> current_frame) {
   static std::vector<std::pair<size_t, size_t > > frames = {
-    {0, 0}, {1, 51}, {52, 68}, {69, 79}, {80, 85}
+    {0, 0}, {1, 51}, {52, 68}, {69, 85}
   };
   size_t frameID = 0;
 
@@ -45,11 +45,11 @@ std::pair<size_t, size_t>   indie::Tile::getNextFrameTentacleBomb(std::pair<size
   return frames[frameID];
 }
 
-std::pair<size_t, size_t>   indie::Tile::getSkeletonFrame(std::string state) {
+std::pair<size_t, size_t>   indie::ResourceHandler::getSkeletonFrame(std::string state) {
   static std::map<std::string, std::pair<size_t, size_t > > frames = {
     { "CAST", {1, 36} },
     { "DIE", {38, 68} },
-    { "IDLE", {70, 150} },
+    { "IDLE", {70, 140} },
     { "RUN", {152, 175} },
     { "SPAWN", {177, 250} }
   };
@@ -59,36 +59,37 @@ std::pair<size_t, size_t>   indie::Tile::getSkeletonFrame(std::string state) {
   return (*frame_it).second;
 }
 
-std::pair<size_t, size_t>   indie::Tile::getNextFrame(indie::OBJECTS_ID type,
+std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrame(indie::OBJECTS_ID type,
                                                       std::pair<size_t, size_t> frame) {
   static std::map<indie::OBJECTS_ID, FrameSeeker> seekers = {
-    { indie::OBJECTS_ID::SQUAREBOMB, [&frame]()->std::pair<size_t, size_t> { return indie::Tile::getNextFrameSquareBomb(frame); } },
-    { indie::OBJECTS_ID::PIKESBOMB, [&frame]()->std::pair<size_t, size_t> { return indie::Tile::getNextFramePikesBomb(frame); } },
-    { indie::OBJECTS_ID::TENTACLEBOMB, [&frame]()->std::pair<size_t, size_t> { return indie::Tile::getNextFrameTentacleBomb(frame); } }
+    { indie::OBJECTS_ID::SQUAREBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFrameSquareBomb(f); } },
+    { indie::OBJECTS_ID::PIKESBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFramePikesBomb(f); } },
+    { indie::OBJECTS_ID::TENTACLEBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFrameTentacleBomb(f); } }
   };
 
-  if (seekers.find(type) != seekers.end()) { return seekers[type](); }
+  if (seekers.find(type) != seekers.end()) { return seekers[type](frame); }
   return std::pair<size_t, size_t>(0, 0);
 }
 
-std::pair<size_t, size_t>   indie::Tile::getLethalFrame(indie::OBJECTS_ID bombType) {
+std::pair<size_t, size_t>   indie::ResourceHandler::getLethalFrame(indie::OBJECTS_ID bombType) {
   static std::map<indie::OBJECTS_ID, std::pair<size_t, size_t> > frames = {
     { indie::OBJECTS_ID::SQUAREBOMB, { 67, 82 } },
-    { indie::OBJECTS_ID::PIKESBOMB, { 49, 65 } },
-    { indie::OBJECTS_ID::TENTACLEBOMB, { 52, 68 } }
+    { indie::OBJECTS_ID::PIKESBOMB, { 49, 64 } },
+    { indie::OBJECTS_ID::TENTACLEBOMB, { 52, 68 } },
+    { indie::OBJECTS_ID::BOX, { 1, 25 } }
   };
 
-    std::map<indie::OBJECTS_ID, std::pair<size_t, size_t> >::const_iterator frame_it;
+  std::map<indie::OBJECTS_ID, std::pair<size_t, size_t> >::const_iterator frame_it;
 
-    if ((frame_it = frames.find(bombType)) == frames.end()) { return std::pair<size_t, size_t>({0, 0}); }
+  if ((frame_it = frames.find(bombType)) == frames.end()) { return std::pair<size_t, size_t>({0, 0}); }
   return (*frame_it).second;
 }
 
-bool  indie::Tile::isFrameLethal(indie::OBJECTS_ID type,
+bool  indie::ResourceHandler::isFrameLethal(indie::OBJECTS_ID type,
                                   std::pair<size_t, size_t> frame) {
   static std::map<indie::OBJECTS_ID, std::vector<std::pair<size_t, size_t> > > frames = {
-    { indie::OBJECTS_ID::SQUAREBOMB, { {67, 82} }},
-    { indie::OBJECTS_ID::PIKESBOMB, { {49, 65} } },
+    { indie::OBJECTS_ID::SQUAREBOMB, { {67, 90} }},
+    { indie::OBJECTS_ID::PIKESBOMB, { {49, 64} } },
     { indie::OBJECTS_ID::TENTACLEBOMB, { {52, 68} } }
   };
   std::map<indie::OBJECTS_ID, std::vector<std::pair<size_t, size_t> > >::const_iterator frame_it;
@@ -102,7 +103,7 @@ bool  indie::Tile::isFrameLethal(indie::OBJECTS_ID type,
           }) != lethalFrames.end();
 }
 
-bool  indie::Tile::isDeathFrame(indie::MODELS_ID type,
+bool  indie::ResourceHandler::isDeathFrame(indie::MODELS_ID type,
                                 std::pair<size_t, size_t> frame) {
   static std::map<indie::MODELS_ID, std::pair<size_t, size_t>  > frames = {
     { indie::MODELS_ID::SKELETON_MODEL, {38, 68} },

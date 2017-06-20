@@ -47,6 +47,7 @@ namespace indie
 	const irr::video::SColor  SYellow(255, 255, 255, 0);
 	const irr::video::SColor  SMagenta(255, 255, 0, 255);
 	const irr::video::SColor  SCyan(255, 0, 255, 255);
+    const irr::video::SColor  Trr(0, 0, 0, 0);
 
     class Gfx : public indie::IGfx {
 
@@ -76,8 +77,10 @@ namespace indie
             //  Main
             virtual void        display();
             virtual void        clear();
+            // SplashScreen
+            virtual void        launchIntro();
             //  Events
-            virtual bool        pollEvents(Event &e);
+            virtual bool        pollEvents(std::vector<Event> &events);
             //  Sound
             virtual bool        doesSupportSound() const;
             virtual void        loadSounds(std::unique_ptr<std::vector<std::pair<std::string, SoundType > > > sounds);
@@ -161,6 +164,7 @@ namespace indie
         public:
             // move in private, here for the moment for debug
 
+
             // Irrlicht Items
             std::unique_ptr<irr::IrrlichtDevice>                _device;
             irr::video::IVideoDriver                            *_driver;
@@ -168,6 +172,9 @@ namespace indie
             irr::scene::ICameraSceneNode                        *_camera;
             irr::gui::IGUIEnvironment                           *_guienv;
             std::vector<irr::gui::IGUIFont *>                   _fonts;
+
+            // Events
+            irrEventOverlay                                     _eventsOverlay;
 
             // Scene Management
             std::vector<SceneContainer>                         _scenesLoaded;
@@ -178,8 +185,6 @@ namespace indie
             std::unordered_map<std::size_t, NodeContainer>      _nodesLoaded;
             std::vector<std::size_t> _objectsId;
 
-            // Events
-            irrEventOverlay                                     _eventsOverlay;
 
             // Sound Manager
             SoundManager                                        _soundManager;
@@ -190,6 +195,7 @@ namespace indie
             // Utils
             const std::array< float, 4 >                        _orientation;
             GfxInfos                                            _infos;
+            bool                                                _introFinished;
     };
 
 }

@@ -11,10 +11,6 @@ namespace indie {
     SPRT_SETTINGSBUTTON
   };
 
-  enum ModelType {
-    MODEL_NONE = -1,
-    MODEL_SKELETON
-  };
 };
 
 #endif // LOAD_HPP

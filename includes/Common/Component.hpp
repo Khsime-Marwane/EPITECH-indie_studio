@@ -28,11 +28,11 @@ namespace indie
         Color  _backgroundColor;
         Color  _textColor;
         std::string _text;
-        indie::Sprite*  _sprite;
+        bool        _hasSprite;
 
     public:
 
-        Component(indie::Sprite &sprite,
+        Component(bool hasSprite,
                   size_t backId,
                   double x,
                   double y,
@@ -42,9 +42,10 @@ namespace indie
                   indie::Color textColor,
                   std::string text = "");
         Component(const indie::Component &other);
-        virtual ~Component();
+        virtual ~Component() {}
 
         ///Setters Methods
+        virtual void setPos(double x, double y, double width, double height);
         virtual void setBackgroundPos(size_t newPos);
 
         ///Getters Methods
@@ -60,7 +61,6 @@ namespace indie
         virtual size_t              getBackgroundPos() const;
         indie::Component             &operator=(const indie::Component &other);
 
-        virtual indie::Sprite*      getSprite();
     };
 }
 
