@@ -39,7 +39,7 @@ if(WIN32)
 
                   indie_studio
                   
-                  ${PROJECT_SOURCE_DIR}/${ROOT_DIR}/lib/Win64-visualStudio/Irrlicht.lib
+                  ${PROJECT_SOURCE_DIR}/${ROOT_DIR}/lib/Win32-visualStudio/Irrlicht.lib
 
       )
 
@@ -57,7 +57,7 @@ if(UNIX AND NOT APPLE)
                                           -Wunreachable-code -Wundef -Wold-style-cast -Woverloaded-virtual -Wfloat-equal      \
                                           -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion               \
                                           -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default                   \
-                                          -Wswitch-enum -Winline" )
+                                          -Wswitch-enum -Winline -Wno-float-equal" )
       SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
       SET( GCC_COVERAGE_LINK_FLAGS  "-lpthread -L./../lib/Linux -lIrrlicht -lXrandr -lXi -lXrender -ldrm -lXdamage -lXxf86vm -lXext -lX11 -lpthread -lGL -lGLU" )
       SET( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}" )

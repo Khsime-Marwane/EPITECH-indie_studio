@@ -1,19 +1,39 @@
 #include "Game/Game.hpp"
-
-void indie::Game::reset() {
-  //_map.reset();
-  _settings = {
-    50.0f, indie::IA_LEVEL::IA_MEDIUM,
-    std::vector<indie::Player>(),
-    1, indie::PlayMod::PLAY_MOD_UNKNOWN
-  };
-}
+#include <chrono>
+#include <thread>
 
 void indie::Game::AIhandler() {
-  std::for_each(_settings.players.begin(), _settings.players.end(),
-    [this](Player &player) {
-      if (player.type == indie::PlayerType::PLAYER_AI) {
-        // call ai(player, _settings.difficulty);
+  std::map<AiAction, std::function<void(size_t)> > actionHandlers = {
+    { AiAction::AI_UP, [this](size_t playerId) { this->move(playerId, ELookAt::NORTH); }},
+    { AiAction::AI_DOWN, [this](size_t playerId) { this->move(playerId, ELookAt::SOUTH); }},
+    { AiAction::AI_LEFT, [this](size_t playerId) { this->move(playerId, ELookAt::WEST); }},
+    { AiAction::AI_RIGHT, [this](size_t playerId) { this->move(playerId, ELookAt::EAST); }},
+    { AiAction::AI_BOMB, [this](size_t playerId) { this->bomb(playerId); }}
+  };
+
+  std::for_each(_players.begin(), _players.end(),
+    [&](std::unique_ptr<Player> &player) {
+      if (player->getType() == indie::PlayerType::PLAYER_AI && player->isAlive())
+        {
+
+          for (size_t y = 0; y < _map.getHeight(); y++) {
+            for (size_t x = 0; x < _map.getWidth(); x++) {
+              indie::Tile &playerTile = _map.at(0, x, y);
+
+              if (playerTile.getModelId(0) == indie::MODELS_ID::SKELETON_MODEL &&
+                  playerTile.getObjectId(0) == player->getId()) {
+
+                if (!indie::ResourceHandler::isDeathFrame(playerTile.getModelId(0), playerTile.getObjectFrameLoop(0))) {
+                  AiAction action = player->think();
+
+                  if (actionHandlers.find(action) != actionHandlers.end()) {
+                    actionHandlers[action](player->getId());
+                  }
+                  return;
+              }
+            }
+          }
+        }
       }
     });
 }
@@ -24,16 +44,17 @@ void indie::Game::splashScreen() {
 }
 
 void indie::Game::gameProcess() {
-  bonusTimer();
   updateAnimations();
+  fallingStones();
   handleEvents();
   AIhandler();
 }
 
 void indie::Game::menuProcess() {
-    handleEvents();
-    while (_timer.Elapsed().count() < 70);
-    _timer.Reset();
+  indie::Timer  timer;
+
+  handleEvents();
+  while (timer.Elapsed().count() < 70);
 }
 
 void indie::Game::process() {
@@ -42,9 +63,13 @@ void indie::Game::process() {
     { indie::GameState::INGAME, [this]() -> void { this->gameProcess(); } },
     { indie::GameState::MAIN_MENU, [this]() -> void { this->menuProcess(); } },
     { indie::GameState::SETTINGS, [this]() -> void { this->menuProcess(); } },
-    { indie::GameState::ROOM, [this]() -> void { this->menuProcess(); } }
+    { indie::GameState::ROOM, [this]() -> void { this->menuProcess(); } },
+    { indie::GameState::SCOREBOARD, [this]() -> void { this->menuProcess(); } },
+    { indie::GameState::PAUSE_GAME, [this]() -> void { this->menuProcess(); } }
   };
+
   _soundsToPlay.clear();
+  _gui.flushGUI();
   if (handlers.find(_gameState) != handlers.end()) { return handlers[_gameState](); }
   handleEvents();
 }

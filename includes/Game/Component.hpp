@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <vector>
-#include <bits/unique_ptr.h>
+#include <memory>
 #include "Common/Sprite.hpp"
 #include "Interfaces/IComponent.hpp"
 

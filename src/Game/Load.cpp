@@ -24,6 +24,9 @@ std::unique_ptr<std::vector<std::unique_ptr<indie::IModel> > > indie::Game::getM
   modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_5.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
   modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Tentacle_6.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 85}})));
   modelsToLoad->push_back(std::make_unique<indie::Model>("Explosions/3/Portal.md3", std::vector<std::pair<size_t, size_t> >({{1, 51}, {52, 68}, {69, 79}, {80, 85}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("Map/falling_stone.md3", std::vector<std::pair<size_t, size_t> >({{1, 18}, {19, 47}, {47, 47}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("PowerUps/Grimoire.obj", std::vector<std::pair<size_t, size_t> >({{0, 0}})));
+  modelsToLoad->push_back(std::make_unique<indie::Model>("PowerUps/Statuette.obj", std::vector<std::pair<size_t, size_t> >({{0, 0}})));
   return std::move(modelsToLoad);
 }
 
@@ -31,14 +34,18 @@ std::unique_ptr<std::vector<std::pair<std::string, indie::SoundType> > > indie::
   std::unique_ptr<std::vector<std::pair<std::string, indie::SoundType> > > soundsToLoad;
 
   soundsToLoad = std::make_unique<std::vector<std::pair<std::string, indie::SoundType> > >();
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Drowning_-_Menu.wav", indie::SoundType::MUSIC));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Fault_Lines_-_Game.wav", indie::SoundType::MUSIC));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Innocence_Mangled_-_Game.wav", indie::SoundType::MUSIC));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Tandava_-_Game.wav", indie::SoundType::MUSIC));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_1.ogg", indie::SoundType::SOUND));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_2.ogg", indie::SoundType::SOUND));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_3.ogg", indie::SoundType::SOUND));
-  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Skeleton_Spawn.ogg", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Beyond_retrieval_-_Menu.flac", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Drowning_-_Game.flac", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Innocence_Mangled_-_Game.flac", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/Music/Tandava_-_Game.flac", indie::SoundType::MUSIC));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_1.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_2.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Explosion_3.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Stones.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Skeleton_Spawn.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Skeleton_Die.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Evil_laugh.flac", indie::SoundType::SOUND));
+  soundsToLoad->push_back(std::make_pair<std::string, indie::SoundType>("Sounds/SFX/Turn_page.flac", indie::SoundType::SOUND));
   return std::move(soundsToLoad);
 }
 
@@ -53,6 +60,6 @@ std::unique_ptr<std::vector<std::unique_ptr<indie::IScene> > > indie::Game::getS
                                                           std::make_pair("Map/top_right.obj", "Map/top_right.png"),
                                                           std::make_pair("Map/ground.obj", "Map/ground.png"),
                                                           std::make_pair("Map/pillars.obj", "Map/pillars.png")
-                                                        }), std::string("Textures/Dome/Hole.jpg"), -12.5f, 0.0f, 13.5f));
+                                                        }), std::string("Gui/background.png"), -12.5f, 0.0f, 13.5f));
   return std::move(scenesToLoad);
 }

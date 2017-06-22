@@ -41,7 +41,7 @@ void            indie::Core::runCoreLoop()
                 break ;
 
             case indie::GameState::SPLASH_SCREEN: // To change when splash will be ready
-                this->_gfx->launchIntro();
+                 this->_gfx->launchIntro();
                 this->loading();
                 this->process();
                 break ;
@@ -50,7 +50,7 @@ void            indie::Core::runCoreLoop()
             case indie::GameState::INGAME:
                 this->process();
                 break;
-                
+
             case indie::GameState::MAIN_MENU:
                 this->process();
                 break;
@@ -58,13 +58,20 @@ void            indie::Core::runCoreLoop()
             case indie::GameState::SCOREBOARD:
                 this->process();
                 break;
-                
+
             case indie::GameState::SETTINGS:
                 this->process();
                 break;
 
-            case indie::GameState::HELP:
+            case indie::GameState::PAUSE_GAME:
+                this->process();
+                break;
+
             case indie::GameState::ROOM:
+                this->process();
+                break ;
+
+            case indie::GameState::ENDGAME:
                 this->process();
                 break ;
 

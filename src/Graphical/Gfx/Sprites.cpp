@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-22 19:17:21 
+// Author: Marwane Khsime
+// Date: 2017-05-22 19:17:21
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-22 19:17:21
 //
 
@@ -10,7 +10,6 @@
 
 void    indie::Gfx::loadSprites(std::unique_ptr<std::vector<std::unique_ptr<ISprite> > > sprt_to_load) {
 
-    std::cout << "loapSprites\n";
     for (std::size_t i = 0; i < sprt_to_load->size(); ++i) {
 
         for (std::size_t x = 0, count = sprt_to_load->at(i)->SpritesCount(); x < count; ++x) {
@@ -20,8 +19,6 @@ void    indie::Gfx::loadSprites(std::unique_ptr<std::vector<std::unique_ptr<ISpr
             if (img) {
                 this->_sprites[i].push_back(img);
             } else {
-                // TODO
-                // Throw ?
                 std::cerr << _INDIE_GFX_SPRITE_FAILED << sprt_to_load->at(i)->getGraphicPath(x) << std::endl;
             }
 

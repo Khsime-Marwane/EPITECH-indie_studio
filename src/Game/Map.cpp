@@ -9,7 +9,7 @@
 #include <memory>
 #include "Game/Map.hpp"
 
-indie::Map::Map(std::size_t which_map)
+indie::Map::Map()
     : _width(0),
       _height(0),
       _nbLayers(0),
@@ -18,24 +18,44 @@ indie::Map::Map(std::size_t which_map)
       _objectsId(),
       _layers(),
       _rawMap(),
-      _id(0)
+      _id(4)
 {
-
-    switch (static_cast< GAME_MAP >(which_map))
-    {
-        case GAME_MAP::LITTLE_MAP:
-            this->generate_little_map();
-            break ;
-
-        default:
-            throw IndieError(_INDIE_GAME_INVALID_MAP_INDEX);
-            break ;
-    }
-
+  init(0, 2);
 }
 
-indie::Map::~Map() {
+indie::Map::~Map() {}
 
+void indie::Map::init(size_t which_map, size_t nPlayers) {
+  switch (static_cast< GAME_MAP >(which_map))
+  {
+    case GAME_MAP::LITTLE_MAP:
+      this->generate_little_map(nPlayers);
+      break ;
+    default:
+      throw IndieError(_INDIE_GAME_INVALID_MAP_INDEX);
+      break ;
+  }
+}
+
+void indie::Map::clear() {
+  _width = 0;
+  _height = 0;
+  _nbLayers = 0;
+  _sceneId = 0;
+  _scenePov = ECAMERA_VIEW::DEFAULT;
+  _objectsId.clear();
+  std::for_each(_layers.begin(), _layers.end(),
+  [](std::vector<std::vector<std::unique_ptr< indie::Tile> > > &layer){
+    std::for_each(layer.begin(), layer.end(),
+    [](std::vector<std::unique_ptr<indie::Tile> > &line){
+      line.clear();
+    });
+  });
+  std::for_each(_rawMap.begin(), _rawMap.end(),
+  [](std::vector<int> &line){
+    line.clear();
+  });
+  _id = 4;
 }
 
 indie::ITile const &indie::Map::at(size_t layer, size_t x, size_t y) const
@@ -122,37 +142,43 @@ void  indie::Map::initTiles() {
           case indie::OBJECTS_ID::PLAYER_ONE:
             tile->setHasModel(0, true);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++_id);
-            tile->setObjectId(0, _id);
+            _objectsId.push_back(1);
+            tile->setObjectId(0, 1);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Blue.png");
             tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
+            tile->setObjectRotation(0, indie::ELookAt::EAST);
             break;
 
           case indie::OBJECTS_ID::PLAYER_TWO:
             tile->setHasModel(0, true);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++_id);
-            tile->setObjectId(0, _id);
+            _objectsId.push_back(2);
+            tile->setObjectId(0, 2);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Red.png");
             tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
+            tile->setShiftX(0, 0.3);
+            tile->setObjectRotation(0, indie::ELookAt::SOUTH);
             break;
 
           case indie::OBJECTS_ID::PLAYER_THREE:
             tile->setHasModel(0, true);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++_id);
-            tile->setObjectId(0, _id);
+            _objectsId.push_back(3);
+            tile->setObjectId(0, 3);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Yellow.png");
             tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
+            tile->setShiftX(0, 0.3);
+            tile->setObjectRotation(0, indie::ELookAt::WEST);
             break;
 
           case indie::OBJECTS_ID::PLAYER_FOURTH:
             tile->setHasModel(0, true);
             tile->setModelId(0, indie::MODELS_ID::SKELETON_MODEL);
-            _objectsId.push_back(++_id);
-            tile->setObjectId(0, _id);
+            _objectsId.push_back(4);
+            tile->setObjectId(0, 4);
             tile->setObjectTexture(0, "Textures/SkeletonMage/Green.png");
             tile->setObjectFrameLoop(0, indie::ResourceHandler::getSkeletonFrame("SPAWN"));
+            tile->setObjectRotation(0, indie::ELookAt::NORTH);
             break;
 
           case indie::OBJECTS_ID::BOX:
@@ -168,6 +194,9 @@ void  indie::Map::initTiles() {
           case indie::OBJECTS_ID::SQUAREBOMB:
           case indie::OBJECTS_ID::PIKESBOMB:
           case indie::OBJECTS_ID::TENTACLEBOMB:
+          case indie::OBJECTS_ID::FALLING_PILLAR:
+          case indie::OBJECTS_ID::BONUS_TENTACLEB:
+          case indie::OBJECTS_ID::BONUS_SQUAREB:
           case indie::OBJECTS_ID::UNKNOWN:
           default:
             break;

@@ -75,11 +75,12 @@ indie::Tile         &indie::Tile::operator=(const indie::Tile &other) {
 void              indie::Tile::reset() {
   this->_hasModel =  { false };
   this->_modelId = { indie::MODELS_ID::UNKNOWN };
-  this->_doesAnimationChanged = { false };
+  this->_doesAnimationChanged = { true };
   this->_objectFrameLoop =  { { 0,0 } };
   this->_shiftY = { 0.0 };
   this->_shiftX = { 0.0 };
   this->_type = { indie::OBJECTS_ID::EMPTY };
+  _objectId = { 0 };
 }
 
 void  indie::Tile::deleteElement(size_t i) {
@@ -97,8 +98,10 @@ void  indie::Tile::deleteElement(size_t i) {
 }
 
 bool  indie::Tile::isTangible(size_t at) const {
-  return _type[at] != indie::OBJECTS_ID::EMPTY &&
-        _type[at] != indie::OBJECTS_ID::PIKESBOMB;
+  return  _type[at] != indie::OBJECTS_ID::EMPTY &&
+          _type[at] != indie::OBJECTS_ID::PIKESBOMB &&
+          _type[at] != indie::OBJECTS_ID::BONUS_SQUAREB &&
+          _type[at] != indie::OBJECTS_ID::BONUS_TENTACLEB;
 }
 
 void  indie::Tile::newElem(size_t id) {

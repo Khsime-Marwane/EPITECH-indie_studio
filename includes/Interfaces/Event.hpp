@@ -199,7 +199,6 @@ namespace indie
   enum ControllerKey
   {
     C_NONE = -1, /// Unknown key
-    // TODO: map the controller keys
     NB_CONTROLLER_KEY /// Number of controller keys
   };
 

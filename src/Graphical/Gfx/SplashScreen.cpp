@@ -6,6 +6,9 @@
 // Last Modified time: 2017-06-19 07:57:16
 //
 
+#include <array>
+#include <string>
+
 #include "Graphical/Gfx.hpp"
 #include "Common/Timer.hpp"
 
@@ -92,11 +95,12 @@ void    indie::Gfx::launchIntro() {
     this->_introFinished = false;
 
     irr::video::ITexture    *load_icon;
+    irr::video::ITexture    *banner = this->_driver->getTexture("Splash/BANNER.png");
     indie::Timer            timer;
     int                     icon_x = 1;
     int                     icon_y = 1;
 
-    load_icon = this->_driver->getTexture("Sprites/loading_icon.png");
+    load_icon = this->_driver->getTexture("Splash/loading_icon.png");
 
     for (std::size_t i = 0; i < 300; ++i) {
 
@@ -145,6 +149,25 @@ void    indie::Gfx::launchIntro() {
                                         true);
 
         } // End Loading Icon
+
+        if (banner) {
+
+            irr::core::rect<irr::s32>   position(static_cast<irr::s32>(this->get_real_posX(0.0)),
+                                                 static_cast<irr::s32>(this->get_real_posY(0.30)),
+                                                 static_cast<irr::s32>(this->get_real_posX(0.80)),
+                                                 static_cast<irr::s32>(this->get_real_posY(0.80))
+                                                );
+            irr::core::rect<irr::s32>   sprite_area(0,
+                                                    0,
+                                                    banner->getSize().Width,
+                                                    banner->getSize().Height);
+            this->_driver->draw2DImage( banner,
+                                        position,
+                                        sprite_area,
+                                        0,
+                                        NULL,
+                                        true);
+        }
 
         while (timer.Elapsed() < static_cast<std::chrono::milliseconds>(60));
         timer.Reset();

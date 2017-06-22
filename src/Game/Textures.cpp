@@ -16,6 +16,9 @@ std::string indie::ResourceHandler::getTexture(indie::MODELS_ID model) {
     { indie::MODELS_ID::TENTACLE_MODEL_5, "Explosions/3/Tentacle.png" },
     { indie::MODELS_ID::TENTACLE_MODEL_6, "Explosions/3/Tentacle.png" },
     { indie::MODELS_ID::TENTACLE_MODEL_PORTAL, "Explosions/3/Portal.png" },
+    { indie::MODELS_ID::FALLING_PILLAR_MODEL, "Map/falling_stone.png" },
+    { indie::MODELS_ID::BONUS_SQUAREB_MODEL, "PowerUps/Grimoire_tex.png" },
+    { indie::MODELS_ID::BONUS_TENTACLEB_MODEL, "PowerUps/Statuette_tex.png" }
   };
 
   if (textures.find(model) != textures.end()) { return textures[model]; }

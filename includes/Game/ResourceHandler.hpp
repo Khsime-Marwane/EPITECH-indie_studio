@@ -27,6 +27,7 @@ namespace indie {
       static std::pair<size_t, size_t> getNextFrameSquareBomb(std::pair<size_t, size_t>);
       static std::pair<size_t, size_t> getNextFramePikesBomb(std::pair<size_t, size_t>);
       static std::pair<size_t, size_t> getNextFrameTentacleBomb(std::pair<size_t, size_t>);
+      static std::pair<size_t, size_t> getNextFrameFallingPillar(std::pair<size_t, size_t>);
       static std::pair<size_t, size_t> getNextFrame(OBJECTS_ID,
                                                     std::pair<size_t, size_t>);
       static bool                      isDeathFrame(MODELS_ID, std::pair<size_t, size_t>);

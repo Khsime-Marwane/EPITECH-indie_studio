@@ -30,7 +30,7 @@ namespace indie
         };
 
         public:
-            Map(std::size_t which_map);
+            Map();
             Map(Map &&) = default;
             Map(const Map &) = default;
             Map &operator=(Map &&) = default;
@@ -56,6 +56,8 @@ namespace indie
             void deleteObjectById(std::size_t del);
             void setObectsId(const std::vector<std::size_t> &ids);
             size_t newId();
+            void init(size_t, size_t);
+            void clear();
 
         private:
 
@@ -72,7 +74,7 @@ namespace indie
             void    initTiles();
 
             // Map generators
-            void    generate_little_map();
+            void    generate_little_map(size_t);
 
             std::size_t _width;
             std::size_t _height;

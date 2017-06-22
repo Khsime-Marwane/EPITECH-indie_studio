@@ -1,33 +1,20 @@
 #include "Game/Game.hpp"
 
 indie::Game::Game() :
-  _timer(),
-  _soundsToPlay({indie::Sound(indie::SoundId::SOUND_SKELELETON_SPAWN, indie::SoundAction::UNIQUE, 50.0f)}),
+  _players(),
+  _soundsToPlay(),
   _music(indie::Sound(indie::SoundId::SOUND_NONE, indie::SoundAction::PLAY, 50.0f)),
   _gameState(SPLASH_SCREEN),
   _events(),
-  _map(0),
-  _settings({ 50.0f, IA_LEVEL::IA_MEDIUM, std::vector<Player>(), 1, indie::PlayMod::PLAY_MOD_LOCAL}),
+  _map(),
+  _settings(_players),
   _gui(_settings, _gameState),
   _objectsStates()
  {
- _settings.players.push_back({
-   indie::KeyboardKey::KB_Q, indie::KeyboardKey::KB_D,
-   indie::KeyboardKey::KB_Z, indie::KeyboardKey::KB_S,
-   indie::KeyboardKey::KB_E,
-   std::vector<indie::Bonus>(),
-   1, indie::PlayerType::PLAYER_HUMAN});
+  srand(0);
  }
 
 indie::Game::~Game() {}
-
-void indie::Game::initSettings() {
-  _settings = {
-    50.0f, indie::IA_LEVEL::IA_MEDIUM,
-    std::vector<indie::Player>(),
-    0, indie::PlayMod::PLAY_MOD_UNKNOWN
-  };
-}
 
 indie::GameState indie::Game::getGameState() const {
   return _gameState;
@@ -42,13 +29,6 @@ const std::vector<size_t> &indie::Game::getObjectsId() const {
 }
 
 const std::vector<indie::Sound> &indie::Game::getSoundsToPlay() const {
-  /*const std::vector<indie::Souns> &gui_sounds = _gui.getSoundsToPlay(); TODO add gui sounds
-  _soundsToPlay.inset(_soundsToPlay.begin(), gui_sound.begin()), gui_sounds.end());
-   if (_gui.hasVolumeChanged()) {
-   _music.mode = indie::Sound::VOLUME;
-    _music.volume = _settings.volume;
-    _soundsToPlay.push_back(_music);
-  }*/
   return _soundsToPlay;
 }
 
@@ -62,4 +42,71 @@ const indie::IGUI &indie::Game::getCurrentGUI() const {
 
 void indie::Game::setObjectsAnimationState(const std::vector<indie::AnimationState> &objectsStates) {
   _objectsStates = objectsStates;
+}
+
+indie::Player &indie::Game::getBombOwner(size_t bombId) {
+  std::vector<std::unique_ptr<indie::Player> >::iterator player_it;
+
+  player_it = std::find_if(_players.begin(), _players.end(),
+                [&bombId](std::unique_ptr<indie::Player> &player) {
+                  return player->hasBomb(bombId);
+                });
+  return *(*player_it);
+}
+
+indie::Player &indie::Game::getPlayerById(size_t playerId) {
+  std::vector<std::unique_ptr<indie::Player> >::iterator player_it;
+
+  player_it = std::find_if(_players.begin(), _players.end(),
+            [&playerId](std::unique_ptr<indie::Player> &player)-> bool {
+              return player->getId() == playerId;
+            });
+  return *(*player_it);
+}
+
+void indie::Game::reward() {
+  std::for_each(_players.begin(), _players.end(),
+  [&](std::unique_ptr<indie::Player> &player) {
+    if (player->isAlive()) {
+      _soundsToPlay.push_back(indie::Sound(indie::SoundId::SOUND_EVIL_LAUGH, indie::SoundAction::UNIQUE, _settings.volume));
+      player->updateScore(500);
+    }
+  });
+}
+
+bool indie::Game::isEnded() const {
+  int nPlayers = 0;
+
+  nPlayers =
+    std::accumulate(_players.begin(), _players.end(), 0,
+    [](int i, const std::unique_ptr<Player> &player)->int {
+      return i + static_cast<int>(player->isAlive());
+    });
+  return nPlayers < 2;
+}
+
+void indie::Game::reset() {
+  _players.clear();
+  _music = indie::Sound(indie::SoundId::SOUND_NONE, indie::SoundAction::PLAY, 50.0f);
+  _events.clear();
+  _map.clear();
+  _objectsStates.clear();
+  _settings.timer.Reset();
+}
+
+void indie::Game::start() {
+  size_t totalPlayers = _settings.nPlayers + _settings.nAIs;
+
+  reset();
+  _map.init(0, totalPlayers);
+  getNextFallingPillarPos(true);
+  _soundsToPlay.push_back(indie::Sound(indie::SoundId::SOUND_SKELELETON_SPAWN, indie::SoundAction::UNIQUE, _settings.volume));
+
+  for (size_t i = 1; i <= _settings.nPlayers; i++) {
+    _players.push_back(std::make_unique<indie::Player>(i, _map, totalPlayers));
+  }
+  for (size_t i = _settings.nPlayers + 1; i <= totalPlayers; i++) {
+    _players.push_back(std::make_unique<indie::Player>(i, _map, totalPlayers,
+                                    indie::PlayerType::PLAYER_AI, _settings.difficulty));
+  }
 }

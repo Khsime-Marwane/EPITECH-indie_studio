@@ -15,6 +15,7 @@
 #include "IComponent.hpp"
 # include "Interfaces/Event.hpp"
 # include "Game/Settings.hpp"
+#include "Sound.hpp"
 
 namespace indie
 {
@@ -42,12 +43,36 @@ namespace indie
     /// \brief Access to the n element
     ///
     virtual IComponent &at(std::size_t n) const = 0;
-
+    ///
+    /// \fn virtual loadComponents(indie::GameState &) = 0
+    /// \brief loadComponents
+    ///
     virtual void loadComponents(indie::GameState&) = 0;
-
+    ///
+    /// \fn virtual std::unique_ptr<std::vector<std::unique_ptr<indie::ISprite> > > getSprites() const = 0;
+    /// \brief Get Sprites of this component
+    ///
     virtual std::unique_ptr<std::vector<std::unique_ptr<indie::ISprite> > > getSprites() const = 0;
-
+    ///
+    /// \fn virtual void notifyEvent(const indie::Event &) = 0
+    /// \brief Notify the GUI with an Event input
+    ///
     virtual void notifyEvent(const indie::Event &) = 0;
+    ///
+    /// \fn virtual const std::vector<indie::Sound> &getSounds() const = 0;
+    /// \brief GetSounds to play for this GUI
+    ///
+    virtual std::vector<indie::Sound> &getSounds() = 0;
+    ///
+    /// \fn virtual const std::vector<std::string> &getTransitPaths() const =0;
+    /// \brief Access to the n element
+    ///
+    virtual const std::vector<std::string> &getTransitPaths() const = 0;
+    ///
+    /// \fn virtual void flushGUI() = 0;
+    /// \brief Flush the GUI Properties.
+    ///
+    virtual void flushGUI() = 0;
 
   };
 }

@@ -1,5 +1,19 @@
 #include "Game/ResourceHandler.hpp"
 
+std::pair<size_t, size_t>   indie::ResourceHandler::getSkeletonFrame(std::string state) {
+  static std::map<std::string, std::pair<size_t, size_t > > frames = {
+    { "CAST", {1, 36} },
+    { "DIE", {38, 68} },
+    { "IDLE", {70, 140} },
+    { "RUN", {152, 175} },
+    { "SPAWN", {177, 250} }
+  };
+  std::map<std::string, std::pair<size_t, size_t> >::const_iterator frame_it;
+
+  if ((frame_it = frames.find(state)) == frames.end()) { return std::pair<size_t, size_t>({0, 0}); }
+  return (*frame_it).second;
+}
+
 std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrameSquareBomb(std::pair<size_t, size_t> current_frame) {
   static std::vector<std::pair<size_t, size_t > > frames = {
     {0, 0}, {1, 66}, {67, 82}, {83, 84}
@@ -11,7 +25,7 @@ std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrameSquareBomb(std::
     frameID++;
     return frame.first == current_frame.first && frame.second == current_frame.second;
   });
-  if (frameID == frames.size()) { return std::pair<size_t, size_t>({0, 0});}
+  if (frameID == frames.size()) { return std::pair<size_t, size_t>({0, 0}); }
   return frames[frameID];
 }
 
@@ -45,18 +59,19 @@ std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrameTentacleBomb(std
   return frames[frameID];
 }
 
-std::pair<size_t, size_t>   indie::ResourceHandler::getSkeletonFrame(std::string state) {
-  static std::map<std::string, std::pair<size_t, size_t > > frames = {
-    { "CAST", {1, 36} },
-    { "DIE", {38, 68} },
-    { "IDLE", {70, 140} },
-    { "RUN", {152, 175} },
-    { "SPAWN", {177, 250} }
+std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrameFallingPillar(std::pair<size_t, size_t> current_frame) {
+  static std::vector<std::pair<size_t, size_t > > frames = {
+    {0, 0}, {1, 18}, {19, 47}
   };
-  std::map<std::string, std::pair<size_t, size_t> >::const_iterator frame_it;
+  size_t frameID = 0;
 
-  if ((frame_it = frames.find(state)) == frames.end()) { return std::pair<size_t, size_t>({0, 0}); }
-  return (*frame_it).second;
+  std::find_if(frames.begin(), frames.end(),
+  [&](std::pair<size_t, size_t> &frame) {
+    frameID++;
+    return frame.first == current_frame.first && frame.second == current_frame.second;
+  });
+  if (frameID == frames.size()) { return std::pair<size_t, size_t>({47, 47});}
+  return frames[frameID];
 }
 
 std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrame(indie::OBJECTS_ID type,
@@ -64,7 +79,8 @@ std::pair<size_t, size_t>   indie::ResourceHandler::getNextFrame(indie::OBJECTS_
   static std::map<indie::OBJECTS_ID, FrameSeeker> seekers = {
     { indie::OBJECTS_ID::SQUAREBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFrameSquareBomb(f); } },
     { indie::OBJECTS_ID::PIKESBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFramePikesBomb(f); } },
-    { indie::OBJECTS_ID::TENTACLEBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFrameTentacleBomb(f); } }
+    { indie::OBJECTS_ID::TENTACLEBOMB, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFrameTentacleBomb(f); } },
+    { indie::OBJECTS_ID::FALLING_PILLAR, [](std::pair<size_t, size_t> &f)->std::pair<size_t, size_t> { return indie::ResourceHandler::getNextFrameFallingPillar(f); } },
   };
 
   if (seekers.find(type) != seekers.end()) { return seekers[type](frame); }
@@ -90,7 +106,8 @@ bool  indie::ResourceHandler::isFrameLethal(indie::OBJECTS_ID type,
   static std::map<indie::OBJECTS_ID, std::vector<std::pair<size_t, size_t> > > frames = {
     { indie::OBJECTS_ID::SQUAREBOMB, { {67, 90} }},
     { indie::OBJECTS_ID::PIKESBOMB, { {49, 64} } },
-    { indie::OBJECTS_ID::TENTACLEBOMB, { {52, 68} } }
+    { indie::OBJECTS_ID::TENTACLEBOMB, { {52, 68} } },
+    { indie::OBJECTS_ID::FALLING_PILLAR, { {19, 47} } }
   };
   std::map<indie::OBJECTS_ID, std::vector<std::pair<size_t, size_t> > >::const_iterator frame_it;
 

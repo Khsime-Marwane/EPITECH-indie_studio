@@ -8,16 +8,43 @@
 
 #include "Graphical/Gfx.hpp"
 
-void    indie::Gfx::update_dome(const std::string &dome) {
-    
-    if (this->_dome)
-        this->_dome->remove();
+void    indie::Gfx::draw_dome() {
 
-    if (!(this->_dome = this->_smgr->addSkyDomeSceneNode(this->_driver->getTexture(dome.c_str()),
-                                                   32, 16, 1.0f, 2.0f))) {
-        std::cerr << _INDIE_GFX_DOME_FAILED << std::endl;
-    } else {
-        this->_dome->setRotation(irr::core::vector3df({ this->_orientation[IRR_NORTH], 0.0f, 90.0f}));
+    if (this->_dome) {
+
+    irr::core::rect<irr::s32>   position(0,
+                                            0,
+                                            static_cast<irr::s32>(this->get_real_posX(1.0)),
+                                            static_cast<irr::s32>(this->get_real_posY(1.0))
+                                        );
+    irr::core::rect<irr::s32>   sprite_area(0,
+                                            0,
+                                            this->_dome->getSize().Width,
+                                            this->_dome->getSize().Height
+                                            );
+    this->_driver->draw2DImage( this->_dome,
+                                position,
+                                sprite_area,
+                                0,
+                                NULL,
+                                true);
+    }
+}
+
+void    indie::Gfx::update_dome(const std::string &dome) {
+
+    irr::video::ITexture *image;
+
+    image = this->_driver->getTexture(dome.c_str());
+
+    if (image) {
+
+        this->_dome = image;
+
+    } // End Drawing Frame
+
+    else {
+        std::cout << _INDIE_GFX_DOME_FAILED << std::endl;
     }
 
 }

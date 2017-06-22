@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <array>
 #include <cmath>
 
 #include "irr/irrlicht.h"
@@ -34,9 +35,9 @@ namespace indie
 
     // GLOBAL PARAMETERS
     # define FULLSCREEN         TRUE
-    # define SCREEN_WIDTH       1080
-    # define SCREEN_HEIGHT      720
-    # define DEBUG_MODE         TRUE
+    # define SCREEN_WIDTH       1920
+    # define SCREEN_HEIGHT      1080
+    # define DEBUG_MODE         FALSE
     # define DEFAULT_FONT       0
     // COLORS
     const irr::video::SColor  SBlack(255, 0, 0, 0);
@@ -120,11 +121,13 @@ namespace indie
             // Update and Drawing
             void                draw_model(const ITile &tile, std::size_t x, std::size_t z, std::size_t index);
             void                draw_component_sprite(const IComponent &cmp);
+            void                draw_dome();
             void                draw_component_text(const IComponent &cmp);
             void                draw_text(const std::string &txt,
                                           double x, double y,
                                           const irr::video::SColor &txtColor = irr::video::SColor(255,0,0,0),
                                           const irr::video::SColor &bgColor = irr::video::SColor(255,255,255,255));
+            void                play_animation(const std::vector<std::string> &frames);
 
             void                refresh_objects_id(const std::vector<std::size_t> &objects);
             void                delete_old_nodes();
@@ -155,9 +158,6 @@ namespace indie
 
             }
 
-            // TODO
-            void    test_drawing_map();
-
         //
         // Member Variables
         //
@@ -178,7 +178,7 @@ namespace indie
 
             // Scene Management
             std::vector<SceneContainer>                         _scenesLoaded;
-            irr::scene::ISceneNode                              *_dome;
+            irr::video::ITexture                                *_dome;
 
             // Models Management
             std::unordered_map<std::size_t, MeshContainer>      _meshesLoaded;

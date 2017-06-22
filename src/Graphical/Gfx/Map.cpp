@@ -49,6 +49,7 @@ void    indie::Gfx::draw_model(const ITile &tile, std::size_t x, std::size_t z, 
                 newModel.node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
                 newModel.node->setMD2Animation(irr::scene::EMAT_STAND);
                 newModel.node->setMaterialTexture(0, this->_driver->getTexture(tile.getObjectTexture(index).c_str()) );
+                newModel.node->setMaterialType(irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF);
             }
 
         newModel.id = tile.getObjectId(index);
@@ -75,6 +76,9 @@ void    indie::Gfx::updateMap(const IMap &map) {
         this->_infos._current_scene = map.getSceneId();
         this->_infos._scene_loaded_once = true;
     }
+    
+    // Draw the dome
+    this->draw_dome();
 
     // Delete nodes unused
     this->refresh_objects_id(map.getObjectsId());

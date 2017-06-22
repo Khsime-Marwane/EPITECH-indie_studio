@@ -13,7 +13,7 @@ indie::Score::Score() : _scores(), _dates()
   std::string str;
   int           score;
   std::string::size_type sz;
-  std::ifstream   file("../score.txt");
+  std::ifstream   file(".score.txt");
 
   if (file.is_open())
   {
@@ -71,7 +71,7 @@ void  indie::Score::add_score(int score)
 {
   unsigned int nb = 0;
   int max;
-  std::ofstream file("../score.txt");
+  std::ofstream file(".score.txt");
   long unsigned int size;
 
   _scores.push_back(score);

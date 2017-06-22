@@ -58,7 +58,7 @@ namespace indie
             void        setElem(size_t at, size_t id,
                                 indie::OBJECTS_ID type = indie::OBJECTS_ID::EMPTY,
                                 bool hasModel = false, indie::MODELS_ID modelId = indie::MODELS_ID::UNKNOWN,
-                                bool doesAnimationChanged = false,
+                                bool doesAnimationChanged = true,
                                 std::pair<size_t, size_t> frames = {0, 0},
                                 std::string texture = "",
                                 indie::ELookAt rotation = indie::ELookAt::SOUTH,

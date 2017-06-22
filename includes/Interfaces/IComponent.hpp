@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-05-22 17:48:54 
+// Author: Marwane Khsime
+// Date: 2017-05-22 17:48:54
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-05-22 17:48:54
 //
 
@@ -83,9 +83,6 @@ namespace indie
 
       virtual void   setPos(double x, double y, double width, double height) = 0;
 
-      // TODO
-      // virtual void setPosState(size_t) = 0;
-      // virtual size_t getPosState() const = 0;
     };
 }
 

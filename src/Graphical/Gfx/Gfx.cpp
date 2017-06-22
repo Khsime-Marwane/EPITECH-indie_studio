@@ -12,12 +12,12 @@ indie::Gfx::Gfx()
 
     // irr::createDevice (deviceType, windowSize, bits, fullscreen, stencilbuffer, vsync, receiver)
 
-    try : 
+    try :
           // Device
           _device(irr::createDevice (   irr::video::EDT_OPENGL,
                                         irr::core::dimension2d<irr::u32>(SCREEN_WIDTH, SCREEN_HEIGHT),
                                         32,
-                                        false,
+                                        FULLSCREEN,
                                         true,
                                         false,
                                         NULL) ),
@@ -51,27 +51,27 @@ indie::Gfx::Gfx()
         std::cout << "Launching Irrlicht GFX" << std::endl;
 
         this->_device->setWindowCaption(L"BAUNTLET");
+//
+//        irr::SKeyMap keyMap[5];
+//
+//        keyMap[0].Action = irr::EKA_MOVE_FORWARD;
+//        keyMap[0].KeyCode = irr::KEY_UP;
+//        keyMap[1].Action = irr::EKA_MOVE_BACKWARD;
+//        keyMap[1].KeyCode = irr::KEY_DOWN;
+//        keyMap[2].Action = irr::EKA_STRAFE_LEFT;
+//        keyMap[2].KeyCode = irr::KEY_LEFT;
+//        keyMap[3].Action = irr::EKA_STRAFE_RIGHT;
+//        keyMap[3].KeyCode = irr::KEY_RIGHT;
+//        keyMap[4].Action = irr::EKA_JUMP_UP;
+//        keyMap[4].KeyCode = irr::KEY_SPACE;
+//
+//        this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100.0f, 0.002f, -1, keyMap, 5);
 
-/*        irr::SKeyMap keyMap[5];
-
-        keyMap[0].Action = irr::EKA_MOVE_FORWARD;
-        keyMap[0].KeyCode = irr::KEY_KEY_Z;
-        keyMap[1].Action = irr::EKA_MOVE_BACKWARD;
-        keyMap[1].KeyCode = irr::KEY_KEY_S;
-        keyMap[2].Action = irr::EKA_STRAFE_LEFT;
-        keyMap[2].KeyCode = irr::KEY_KEY_Q;
-        keyMap[3].Action = irr::EKA_STRAFE_RIGHT;
-        keyMap[3].KeyCode = irr::KEY_KEY_D;
-        keyMap[4].Action = irr::EKA_JUMP_UP;
-        keyMap[4].KeyCode = irr::KEY_SPACE;
-
-        this->_camera = this->_smgr->addCameraSceneNodeFPS(0, 100.0f, 0.025f, -1, keyMap, 5);
-*/
          this->_camera = this->_smgr->addCameraSceneNode(NULL,
-                                                        //                    x     y     z
-                                                        irr::core::vector3df(0.0f, 0.0f, 0.0f), // Position
-                                                        irr::core::vector3df(0.0f, 0.0f, 0.0f)  // Angle
-                                                        );
+                                                         //                    x     y     z
+                                                         irr::core::vector3df(0.0f, 0.0f, 0.0f), // Position
+                                                         irr::core::vector3df(0.0f, 0.0f, 0.0f)  // Angle
+                                                         );
 
         this->set_window_settings();
     }

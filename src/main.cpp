@@ -10,6 +10,7 @@
 #include <chrono>
 #include <thread>
 
+//#include "irrKlang/irrKlang.h"
 #include "Core/Core.hpp"
 
 #ifdef _MSC_VER
@@ -17,6 +18,7 @@
     #define _CRT_SECURE_NO_WARNINGS
 
     #pragma comment(lib, "Irrlicht.lib")
+    #pragma comment(lib, "irrKlang.lib")
 
     #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 
